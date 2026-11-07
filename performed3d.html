@@ -111,11 +111,24 @@
                              title="Choose your 3D flying avatar figure">
                             <label for="avatarSelect" class="text-gray-400 font-semibold">Avatar:</label>
                             <select id="avatarSelect" class="bg-gray-800 text-amber-300 font-bold rounded px-1.5 py-0.5 border border-gray-700 focus:outline-none focus:border-orange-500 cursor-pointer">
-                                <option value="dragon" class="bg-gray-900">Crimson Dragon</option>
+                                <option value="aero_wyvern" class="bg-gray-900">Aero Wyvern (Realistic Flight)</option>
                                 <option value="fuchur" class="bg-gray-900">Fuchur (Unendliche Geschichte)</option>
                                 <option value="et_bike" class="bg-gray-900">Boy with Bicycle &amp; E.T.</option>
                                 <option value="delorean" class="bg-gray-900">DeLorean (Back to the Future)</option>
                                 <option value="mars_ufo" class="bg-gray-900">UFO (Mars Attacks!)</option>
+                            </select>
+                        </div>
+
+                        <!-- Camera Perspective Selector (keys 1-5) -->
+                        <div class="flex items-center gap-1.5 bg-gray-900/90 border border-sky-500/40 rounded-xl px-2.5 py-1 text-xs"
+                             title="Switch camera perspective — press keys 1 to 5">
+                            <label for="cameraViewSelect" class="text-gray-400 font-semibold">Camera:</label>
+                            <select id="cameraViewSelect" class="bg-gray-800 text-sky-300 font-bold rounded px-1.5 py-0.5 border border-gray-700 focus:outline-none focus:border-orange-500 cursor-pointer">
+                                <option value="1" class="bg-gray-900">1 · Chase</option>
+                                <option value="2" class="bg-gray-900">2 · Far Chase</option>
+                                <option value="3" class="bg-gray-900">3 · Top-Down</option>
+                                <option value="4" class="bg-gray-900">4 · Front</option>
+                                <option value="5" class="bg-gray-900">5 · Front Far</option>
                             </select>
                         </div>
 
@@ -143,15 +156,69 @@
                             <span id="steeringToggleLabel" class="font-bold text-cyan-300">Steering: ON</span>
                         </label>
 
-                        <!-- Bluetooth Connect Button -->
-                        <button id="connectBleBtn" type="button"
-                                class="px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-blue-600 hover:bg-blue-500 text-white border border-blue-400/30">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7l10 10-5 5V2l5 5L7 17"/>
-                            </svg>
-                            <span id="bleStatusText">Connect Wahoo KICKR</span>
-                            <span id="bleStatusDot" class="w-2 h-2 rounded-full bg-gray-300"></span>
-                        </button>
+                        <!-- Bluetooth Pairing Buttons Group -->
+                        <div id="blePairingButtonsGroup" class="flex flex-wrap items-center gap-1.5 bg-gray-900/90 border border-gray-800 rounded-xl px-2 py-1">
+                            <span class="text-[11px] font-semibold text-gray-400 px-1 flex items-center gap-1 select-none" title="Bluetooth Low Energy Sensors">
+                                <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7l10 10-5 5V2l5 5L7 17"/>
+                                </svg>
+                                <span>BLE:</span>
+                            </span>
+
+                            <!-- Bluetooth Connect Button (Wahoo KICKR) -->
+                            <button id="connectBleBtn" type="button"
+                                    class="px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-blue-600 hover:bg-blue-500 text-white border border-blue-400/30">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7l10 10-5 5V2l5 5L7 17"/>
+                                </svg>
+                                <span id="bleStatusText">Connect Wahoo KICKR</span>
+                                <span id="bleStatusDot" class="w-2 h-2 rounded-full bg-gray-300"></span>
+                            </button>
+
+                            <!-- BLE Heart Rate Monitor Pairing Button (e.g. Garmin HRM 200) -->
+                            <button id="connectHrmBleBtn" type="button"
+                                    class="px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-rose-700/80 hover:bg-rose-600 text-white border border-rose-400/30"
+                                    title="Pair BLE Heart Rate Monitor (e.g. Garmin HRM 200)">
+                                <svg class="w-3.5 h-3.5 text-rose-300" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                <span id="bleHrmStatusText">Pair HRM</span>
+                                <span id="bleHrmStatusDot" class="w-2 h-2 rounded-full bg-gray-300"></span>
+                            </button>
+
+                            <!-- BLE Cadence Sensor Pairing Button -->
+                            <button id="connectCadenceBleBtn" type="button"
+                                    class="px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-emerald-700/80 hover:bg-emerald-600 text-white border border-emerald-400/30"
+                                    title="Pair BLE Cadence Sensor">
+                                <svg class="w-3.5 h-3.5 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                <span id="bleCadenceStatusText">Pair Cadence</span>
+                                <span id="bleCadenceStatusDot" class="w-2 h-2 rounded-full bg-gray-300"></span>
+                            </button>
+
+                            <!-- BLE Speed Sensor Pairing Button -->
+                            <button id="connectSpeedBleBtn" type="button"
+                                    class="px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-cyan-700/80 hover:bg-cyan-600 text-white border border-cyan-400/30"
+                                    title="Pair BLE Speed Sensor">
+                                <svg class="w-3.5 h-3.5 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                <span id="bleSpeedStatusText">Pair Speed</span>
+                                <span id="bleSpeedStatusDot" class="w-2 h-2 rounded-full bg-gray-300"></span>
+                            </button>
+
+                            <!-- BLE Steering Sensor Pairing Button (Elite Sterzo Smart / Elite Rizer) -->
+                            <button id="connectSteerBleBtn" type="button"
+                                    class="px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-purple-700/80 hover:bg-purple-600 text-white border border-purple-400/30"
+                                    title="Pair Elite Sterzo Smart or Elite Rizer for BLE Steering">
+                                <svg class="w-3.5 h-3.5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7l-5 5 5 5M16 7l5 5-5 5"/>
+                                </svg>
+                                <span id="bleSteerStatusText">Pair Sterzo / Rizer</span>
+                                <span id="bleSteerStatusDot" class="w-2 h-2 rounded-full bg-gray-300"></span>
+                            </button>
+                        </div>
 
                         <!-- Demo / Virtual Pedal Toggle -->
                         <button id="simToggleBtn" type="button"
@@ -261,6 +328,16 @@
                             <span>Next Block</span>
                         </button>
 
+                        <button id="screenshotBtn" type="button"
+                                class="px-2.5 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-cyan-300 font-bold text-xs flex items-center gap-1 whitespace-nowrap shrink-0 border border-cyan-500/40 transition cursor-pointer"
+                                title="Capture screenshot for the finish summary dialog">
+                            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <span id="screenshotBtnText">Screenshot</span>
+                        </button>
+
                         <button id="finishWorkoutBtn" type="button" disabled
                                 class="px-3.5 py-2 rounded-xl bg-rose-600/90 hover:bg-rose-500 disabled:opacity-40 disabled:pointer-events-none text-white font-bold text-xs flex items-center gap-1 whitespace-nowrap shrink-0 border border-rose-400/30 transition cursor-pointer">
                             <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -307,11 +384,22 @@
                          title="Choose your 3D flying avatar figure">
                         <label for="compactAvatarSelect" class="text-gray-400 font-semibold">Avatar:</label>
                         <select id="compactAvatarSelect" class="bg-gray-800 text-amber-300 font-bold rounded px-1.5 py-0.5 border border-gray-700 focus:outline-none focus:border-orange-500 cursor-pointer">
-                            <option value="dragon" class="bg-gray-900">Crimson Dragon</option>
+                            <option value="aero_wyvern" class="bg-gray-900">Aero Wyvern (Realistic Flight)</option>
                             <option value="fuchur" class="bg-gray-900">Fuchur (Unendliche Geschichte)</option>
                             <option value="et_bike" class="bg-gray-900">Boy with Bicycle &amp; E.T.</option>
                             <option value="delorean" class="bg-gray-900">DeLorean (Back to the Future)</option>
                             <option value="mars_ufo" class="bg-gray-900">UFO (Mars Attacks!)</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center gap-1.5 bg-gray-900/90 border border-sky-500/40 rounded-xl px-2.5 py-1 text-xs"
+                         title="Switch camera perspective — press keys 1 to 5">
+                        <label for="compactCameraViewSelect" class="text-gray-400 font-semibold">Camera:</label>
+                        <select id="compactCameraViewSelect" class="bg-gray-800 text-sky-300 font-bold rounded px-1.5 py-0.5 border border-gray-700 focus:outline-none focus:border-orange-500 cursor-pointer">
+                            <option value="1" class="bg-gray-900">1 · Chase</option>
+                            <option value="2" class="bg-gray-900">2 · Far Chase</option>
+                            <option value="3" class="bg-gray-900">3 · Top-Down</option>
+                            <option value="4" class="bg-gray-900">4 · Front</option>
+                            <option value="5" class="bg-gray-900">5 · Front Far</option>
                         </select>
                     </div>
                     <label for="compactSteeringToggleCheck"
@@ -345,6 +433,15 @@
                             class="px-3 py-1.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs border border-gray-700 cursor-pointer transition">
                         Next Block
                     </button>
+                    <button id="compactScreenshotBtn" type="button"
+                            class="px-2.5 py-1.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-cyan-300 font-bold text-xs flex items-center gap-1 border border-cyan-500/40 cursor-pointer transition"
+                            title="Capture screenshot for the finish summary dialog">
+                        <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <span id="compactScreenshotBtnText">Screenshot</span>
+                    </button>
                     <button id="compactFinishWorkoutBtn" type="button"
                             class="px-3 py-1.5 rounded-xl bg-rose-600/90 hover:bg-rose-500 text-white font-bold text-xs border border-rose-400/30 cursor-pointer transition">
                         Finish &amp; Summary
@@ -357,10 +454,10 @@
                 </div>
             </section>
 
-            <!-- TOP IN-GAME ARCADE HUD: UPPER RIGHT ORANGE SCORE, STREAK DURATION & CURRENT PEDALED WATTS -->
+            <!-- TOP IN-GAME ARCADE HUD: UPPER RIGHT ORANGE SCORE, STREAK DURATION, WATTS, HEART RATE, CADENCE & SPEED -->
             <div class="flex items-start justify-end pointer-events-none">
                 <div id="upperRightArcadeHud"
-                     class="arcade-hud-panel relative overflow-hidden rounded-2xl border-2 border-orange-500/50 backdrop-blur-md px-3.5 py-2.5 sm:px-4 sm:py-3 text-orange-400 font-black font-mono pointer-events-auto min-w-[210px] sm:min-w-[260px]">
+                     class="arcade-hud-panel relative overflow-hidden rounded-2xl border-2 border-orange-500/50 backdrop-blur-md px-3.5 py-2.5 sm:px-4 sm:py-3 text-orange-400 font-black font-mono pointer-events-auto min-w-[230px] sm:min-w-[290px]">
                     <!-- Top Arcade Neon Accent Line -->
                     <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-300 via-orange-500 to-rose-500"></div>
 
@@ -401,6 +498,48 @@
                             </div>
                             <div class="text-sm sm:text-base font-black text-amber-300 tabular-nums arcade-text-glow leading-none">
                                 <span id="actualWattsDisplay">0</span><span class="text-[10px] sm:text-xs text-orange-400 ml-0.5">W</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Telemetry Row: Heart Rate, Cadence & Speed -->
+                    <div class="grid grid-cols-3 gap-1.5 mt-2 pt-2 border-t border-orange-500/20">
+                        <!-- Live Heart Rate Badge -->
+                        <div class="flex flex-col justify-between rounded-xl bg-gray-900/85 border border-rose-500/35 px-2 py-1 shadow-inner" title="Current Heart Rate (bpm)">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-3 h-3 text-rose-400 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                <span class="text-[9px] sm:text-[10px] uppercase tracking-wider text-rose-300/90 font-extrabold">HR</span>
+                            </div>
+                            <div class="text-xs sm:text-sm font-black text-rose-300 tabular-nums leading-tight mt-0.5 text-right">
+                                <span id="heartRateDisplay">--</span><span class="text-[9px] sm:text-[10px] text-rose-400/90 ml-0.5">bpm</span>
+                            </div>
+                        </div>
+
+                        <!-- Live Cadence Badge -->
+                        <div class="flex flex-col justify-between rounded-xl bg-gray-900/85 border border-emerald-500/35 px-2 py-1 shadow-inner" title="Current Cadence (rpm)">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-3 h-3 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                <span class="text-[9px] sm:text-[10px] uppercase tracking-wider text-emerald-300/90 font-extrabold">Cadence</span>
+                            </div>
+                            <div class="text-xs sm:text-sm font-black text-emerald-300 tabular-nums leading-tight mt-0.5 text-right">
+                                <span id="cadenceDisplay">0</span><span class="text-[9px] sm:text-[10px] text-emerald-400/90 ml-0.5">rpm</span>
+                            </div>
+                        </div>
+
+                        <!-- Live Speed Badge -->
+                        <div class="flex flex-col justify-between rounded-xl bg-gray-900/85 border border-cyan-500/35 px-2 py-1 shadow-inner" title="Current Speed (km/h)">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-3 h-3 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                <span class="text-[9px] sm:text-[10px] uppercase tracking-wider text-cyan-300/90 font-extrabold">Speed</span>
+                            </div>
+                            <div class="text-xs sm:text-sm font-black text-cyan-300 tabular-nums leading-tight mt-0.5 text-right">
+                                <span id="speedDisplay">0.0</span><span class="text-[9px] sm:text-[10px] text-cyan-400/90 ml-0.5">km/h</span>
                             </div>
                         </div>
                     </div>
@@ -535,15 +674,42 @@
                 </div>
             </div>
 
-            <!-- Action Buttons: Download FIT File & Close -->
-            <div class="mt-6 pt-5 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-3 relative z-10">
-                <button id="downloadFitBtn" type="button"
-                        class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-400 hover:from-orange-400 hover:to-yellow-300 text-gray-950 font-black text-sm flex items-center justify-center gap-2.5 cursor-pointer shadow-lg shadow-orange-500/25 transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                    </svg>
-                    <span>Download .FIT File (Strava / Garmin)</span>
-                </button>
+            <!-- Prepared Screenshot Preview & Download Section -->
+            <div id="summaryScreenshotSection" class="hidden mt-5 bg-gray-950/90 border border-cyan-500/40 rounded-2xl p-4 relative z-10">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <span class="text-xs uppercase font-black tracking-wider text-cyan-300">Prepared Flight Screenshot</span>
+                    </div>
+                    <span id="summaryScreenshotTimestamp" class="text-[11px] font-mono text-gray-400"></span>
+                </div>
+                <div class="rounded-xl overflow-hidden border border-gray-800 bg-gray-900 max-h-64 flex items-center justify-center">
+                    <img id="summaryScreenshotPreview" src="" alt="Prepared Flight Screenshot" class="w-full h-auto max-h-64 object-contain block">
+                </div>
+            </div>
+
+            <!-- Action Buttons: Download FIT File, Save Screenshot & Close -->
+            <div class="mt-6 pt-5 border-t border-gray-800 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 relative z-10">
+                <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3 w-full sm:w-auto">
+                    <button id="downloadFitBtn" type="button"
+                            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-400 hover:from-orange-400 hover:to-yellow-300 text-gray-950 font-black text-sm flex items-center justify-center gap-2.5 cursor-pointer shadow-lg shadow-orange-500/25 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        <span>Download .FIT File (Strava / Garmin)</span>
+                    </button>
+
+                    <button id="downloadScreenshotBtn" type="button"
+                            class="hidden w-full sm:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-sky-400 hover:from-cyan-400 hover:to-sky-300 text-gray-950 font-black text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-cyan-500/25 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        <span>Download &amp; Save Screenshot (.PNG)</span>
+                    </button>
+                </div>
 
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
                     <button id="closeSummaryBtn" type="button"
@@ -1138,16 +1304,23 @@
             }
 
             function writeRecordDef() {
-                pushU8(0x40 | 1); pushU8(0); pushU8(0); pushU16(20); pushU8(5);
+                pushU8(0x40 | 1); pushU8(0); pushU8(0); pushU16(20); pushU8(6);
                 pushU8(253); pushU8(4); pushU8(0x86);
                 pushU8(5); pushU8(4); pushU8(0x86);
                 pushU8(7); pushU8(2); pushU8(0x84);
                 pushU8(6); pushU8(2); pushU8(0x84);
                 pushU8(4); pushU8(1); pushU8(0x02);
+                pushU8(3); pushU8(1); pushU8(0x02); // heart_rate (3, uint8, 0x02, bpm)
+            }
+
+            function toFitHeartRateByte(hr) {
+                return (hr !== null && hr !== undefined && hr > 0)
+                    ? Math.max(1, Math.min(254, Math.round(hr)))
+                    : 0xFF;
             }
 
             function writeLapMsg() {
-                pushU8(0x40 | 2); pushU8(0); pushU8(0); pushU16(19); pushU8(9);
+                pushU8(0x40 | 2); pushU8(0); pushU8(0); pushU16(19); pushU8(12);
                 pushU8(253); pushU8(4); pushU8(0x86);
                 pushU8(2);   pushU8(4); pushU8(0x86);
                 pushU8(7);   pushU8(4); pushU8(0x86);
@@ -1156,7 +1329,10 @@
                 pushU8(19);  pushU8(2); pushU8(0x84);
                 pushU8(20);  pushU8(2); pushU8(0x84);
                 pushU8(17);  pushU8(1); pushU8(0x02);
-                pushU8(25);  pushU8(1); pushU8(0x00);
+                pushU8(15);  pushU8(1); pushU8(0x02); // avg_heart_rate (bpm)
+                pushU8(16);  pushU8(1); pushU8(0x02); // max_heart_rate (bpm)
+                pushU8(25);  pushU8(1); pushU8(0x00); // sport (2 = cycling)
+                pushU8(39);  pushU8(1); pushU8(0x00); // sub_sport (6 = indoor_cycling)
 
                 pushU8(0x02);
                 pushU32(endFitTs);
@@ -1167,11 +1343,14 @@
                 pushU16(Math.round(sessionSummary.avgWatts));
                 pushU16(Math.round(sessionSummary.maxWatts));
                 pushU8(Math.round(sessionSummary.avgCadence));
-                pushU8(2);
+                pushU8(toFitHeartRateByte(sessionSummary.avgHeartRate));
+                pushU8(toFitHeartRateByte(sessionSummary.maxHeartRate));
+                pushU8(2); // cycling
+                pushU8(6); // indoor_cycling
             }
 
             function writeSessionMsg() {
-                pushU8(0x40 | 3); pushU8(0); pushU8(0); pushU16(18); pushU8(14);
+                pushU8(0x40 | 3); pushU8(0); pushU8(0); pushU16(18); pushU8(17);
                 pushU8(253); pushU8(4); pushU8(0x86);
                 pushU8(2);   pushU8(4); pushU8(0x86);
                 pushU8(7);   pushU8(4); pushU8(0x86);
@@ -1185,7 +1364,10 @@
                 pushU8(36);  pushU8(2); pushU8(0x84);
                 pushU8(38);  pushU8(2); pushU8(0x84);
                 pushU8(18);  pushU8(1); pushU8(0x02);
-                pushU8(5);   pushU8(1); pushU8(0x00);
+                pushU8(16);  pushU8(1); pushU8(0x02); // avg_heart_rate (bpm)
+                pushU8(17);  pushU8(1); pushU8(0x02); // max_heart_rate (bpm)
+                pushU8(5);   pushU8(1); pushU8(0x00); // sport (2 = cycling)
+                pushU8(6);   pushU8(1); pushU8(0x00); // sub_sport (6 = indoor_cycling)
 
                 pushU8(0x03);
                 pushU32(endFitTs);
@@ -1201,7 +1383,10 @@
                 pushU16(Math.round(sessionSummary.intensityFactor * 1000));
                 pushU16(Math.round(sessionSummary.ftp));
                 pushU8(Math.round(sessionSummary.avgCadence));
-                pushU8(2);
+                pushU8(toFitHeartRateByte(sessionSummary.avgHeartRate));
+                pushU8(toFitHeartRateByte(sessionSummary.maxHeartRate));
+                pushU8(2); // cycling
+                pushU8(6); // indoor_cycling
             }
 
             function writeActivityMsg() {
@@ -1228,6 +1413,7 @@
                 pushU16(Math.max(0, Math.round(sample.actualWatts)));
                 pushU16(Math.max(0, Math.round(sample.speedMps * 1000)));
                 pushU8(Math.max(0, Math.min(254, Math.round(sample.cadence))));
+                pushU8(toFitHeartRateByte(sample.heartRate));
             });
 
             writeLapMsg();
@@ -1322,7 +1508,7 @@
         }
 
         // =========================================================================
-        // 4. WEB BLUETOOTH WAHOO KICKR CORE V5 CONTROLLER (CPS + FTMS)
+        // 4. WEB BLUETOOTH CONTROLLERS: WAHOO KICKR (CPS + FTMS), HRM (0x180D) & CSC SPEED/CADENCE (0x1816)
         // =========================================================================
         const BLE_UUIDS = {
             CYCLING_POWER_SERVICE: 0x1818,
@@ -1330,11 +1516,308 @@
             WAHOO_CONTROL_POINT: 'a026e005-0a7d-4ab3-97fa-f1500f9feb8b',
             FITNESS_MACHINE_SERVICE: 0x1826,
             INDOOR_BIKE_DATA: 0x2AD2,
-            FTMS_CONTROL_POINT: 0x2AD9
+            FTMS_CONTROL_POINT: 0x2AD9,
+            HEART_RATE_SERVICE: 0x180D,
+            HEART_RATE_MEASUREMENT: 0x2A37,
+            CSC_SERVICE: 0x1816,
+            CSC_MEASUREMENT: 0x2A5B,
+            ELITE_STEERING_SERVICE: '347b0001-7635-408b-8918-8ff3949ce592',
+            ELITE_STEERING_ANGLE_CHAR: '347b0030-7635-408b-8918-8ff3949ce592',
+            ELITE_STEERING_CONTROL_CHAR: '347b0031-7635-408b-8918-8ff3949ce592',
+            ELITE_STEERING_CHALLENGE_CHAR: '347b0032-7635-408b-8918-8ff3949ce592'
         };
 
+        const DEFAULT_WHEEL_CIRCUMFERENCE_METERS = 2.105; // 700x25c road wheel circumference in meters
         const KICKR_POLL_INTERVAL_MS = 250;
         const DRAGON_POWER_AVG_WINDOW_MS = 3000;
+        const ELITE_STEER_DEADZONE_DEG = 1.2;
+        const ELITE_STEER_MAX_ANGLE_DEG = 30.0;
+
+        class BleHeartRateMonitor {
+            constructor(onHeartRateCallback, onStatusCallback) {
+                this.onHeartRate = onHeartRateCallback;
+                this.onStatus = onStatusCallback;
+                this.device = null;
+                this.server = null;
+                this.hrChar = null;
+                this.latestBpm = null;
+                this.connected = false;
+            }
+
+            async connect() {
+                if (!navigator.bluetooth) {
+                    throw new Error('Web Bluetooth is not supported in this browser. Use Chrome/Edge.');
+                }
+
+                this.onStatus('connecting', 'Pairing HRM...');
+                this.device = await navigator.bluetooth.requestDevice({
+                    filters: [
+                        { services: [BLE_UUIDS.HEART_RATE_SERVICE] },
+                        { namePrefix: 'HRM' },
+                        { namePrefix: 'Garmin' },
+                        { namePrefix: 'TICKR' },
+                        { namePrefix: 'Polar' }
+                    ],
+                    optionalServices: [BLE_UUIDS.HEART_RATE_SERVICE]
+                });
+
+                this.device.addEventListener('gattserverdisconnected', () => {
+                    this.connected = false;
+                    this.hrChar = null;
+                    this.latestBpm = null;
+                    this.onHeartRate(null);
+                    this.onStatus('disconnected', 'Pair HRM');
+                });
+
+                this.server = await this.device.gatt.connect();
+                const hrService = await this.server.getPrimaryService(BLE_UUIDS.HEART_RATE_SERVICE);
+                this.hrChar = await hrService.getCharacteristic(BLE_UUIDS.HEART_RATE_MEASUREMENT);
+                await this.hrChar.startNotifications();
+                this.hrChar.addEventListener('characteristicvaluechanged', (e) => {
+                    this.parseHeartRateMeasurement(e.target.value);
+                });
+
+                this.connected = true;
+                this.onStatus('connected', this.device.name || 'HRM Connected');
+            }
+
+            parseHeartRateMeasurement(dataView) {
+                if (!dataView || dataView.byteLength < 2) return null;
+                const flags = dataView.getUint8(0);
+                const is16Bit = (flags & 0x01) !== 0;
+                let bpm;
+                if (is16Bit) {
+                    if (dataView.byteLength < 3) return null;
+                    bpm = dataView.getUint16(1, true);
+                } else {
+                    bpm = dataView.getUint8(1);
+                }
+                if (bpm > 0 && bpm < 260) {
+                    this.latestBpm = bpm;
+                    this.onHeartRate(bpm);
+                }
+                return bpm;
+            }
+        }
+
+        class BleCyclingSpeedCadenceSensor {
+            constructor(sensorRole, onMeasurementCallback, onStatusCallback) {
+                this.sensorRole = sensorRole; // 'cadence' or 'speed'
+                this.onMeasurement = onMeasurementCallback;
+                this.onStatus = onStatusCallback;
+                this.device = null;
+                this.server = null;
+                this.cscChar = null;
+                this.prevWheelRevs = null;
+                this.prevWheelTime = null;
+                this.prevCrankRevs = null;
+                this.prevCrankTime = null;
+                this.latestCadence = null;
+                this.latestSpeedKmh = null;
+                this.wheelCircumferenceMeters = DEFAULT_WHEEL_CIRCUMFERENCE_METERS;
+                this.connected = false;
+            }
+
+            async connect() {
+                if (!navigator.bluetooth) {
+                    throw new Error('Web Bluetooth is not supported in this browser. Use Chrome/Edge.');
+                }
+
+                const roleLabel = this.sensorRole === 'speed' ? 'Speed' : 'Cadence';
+                this.onStatus('connecting', `Pairing ${roleLabel}...`);
+                this.device = await navigator.bluetooth.requestDevice({
+                    filters: [
+                        { services: [BLE_UUIDS.CSC_SERVICE] },
+                        { namePrefix: 'Garmin' },
+                        { namePrefix: 'Wahoo' },
+                        { namePrefix: 'CADENCE' },
+                        { namePrefix: 'SPEED' },
+                        { namePrefix: 'RPM' }
+                    ],
+                    optionalServices: [BLE_UUIDS.CSC_SERVICE]
+                });
+
+                this.device.addEventListener('gattserverdisconnected', () => {
+                    this.connected = false;
+                    this.cscChar = null;
+                    this.prevWheelRevs = null;
+                    this.prevWheelTime = null;
+                    this.prevCrankRevs = null;
+                    this.prevCrankTime = null;
+                    this.onStatus('disconnected', `Pair ${roleLabel}`);
+                });
+
+                this.server = await this.device.gatt.connect();
+                const cscService = await this.server.getPrimaryService(BLE_UUIDS.CSC_SERVICE);
+                this.cscChar = await cscService.getCharacteristic(BLE_UUIDS.CSC_MEASUREMENT);
+                await this.cscChar.startNotifications();
+                this.cscChar.addEventListener('characteristicvaluechanged', (e) => {
+                    this.parseCscMeasurement(e.target.value);
+                });
+
+                this.connected = true;
+                this.onStatus('connected', this.device.name || `${roleLabel} Sensor`);
+            }
+
+            parseCscMeasurement(dataView) {
+                if (!dataView || dataView.byteLength < 1) return;
+                const flags = dataView.getUint8(0);
+                const hasWheelData = (flags & 0x01) !== 0;
+                const hasCrankData = (flags & 0x02) !== 0;
+                let offset = 1;
+                let speedKmh = null;
+                let cadence = null;
+
+                if (hasWheelData && dataView.byteLength >= offset + 6) {
+                    const wheelRevs = dataView.getUint32(offset, true);
+                    const wheelTime = dataView.getUint16(offset + 4, true);
+                    offset += 6;
+                    if (this.prevWheelRevs !== null && this.prevWheelTime !== null) {
+                        const revDiff = (wheelRevs - this.prevWheelRevs) >>> 0;
+                        const timeDiff = (wheelTime - this.prevWheelTime + 65536) % 65536;
+                        if (timeDiff > 0 && revDiff < 50) {
+                            const speedMps = (revDiff * this.wheelCircumferenceMeters * 1024) / timeDiff;
+                            speedKmh = Math.max(0, +(speedMps * 3.6).toFixed(1));
+                        } else if (revDiff === 0 && timeDiff > 2048) {
+                            speedKmh = 0;
+                        }
+                    }
+                    this.prevWheelRevs = wheelRevs;
+                    this.prevWheelTime = wheelTime;
+                }
+
+                if (hasCrankData && dataView.byteLength >= offset + 4) {
+                    const crankRevs = dataView.getUint16(offset, true);
+                    const crankTime = dataView.getUint16(offset + 2, true);
+                    offset += 4;
+                    if (this.prevCrankRevs !== null && this.prevCrankTime !== null) {
+                        const revDiff = (crankRevs - this.prevCrankRevs + 65536) % 65536;
+                        const timeDiff = (crankTime - this.prevCrankTime + 65536) % 65536;
+                        if (timeDiff > 0 && revDiff < 25) {
+                            cadence = Math.round((revDiff * 1024 * 60) / timeDiff);
+                        } else if (revDiff === 0 && timeDiff > 2048) {
+                            cadence = 0;
+                        }
+                    }
+                    this.prevCrankRevs = crankRevs;
+                    this.prevCrankTime = crankTime;
+                }
+
+                if (speedKmh !== null) this.latestSpeedKmh = speedKmh;
+                if (cadence !== null) this.latestCadence = cadence;
+                this.onMeasurement({ speedKmh, cadence });
+            }
+        }
+
+        class BleEliteSteeringSensor {
+            constructor(onSteeringAngleCallback, onStatusCallback) {
+                this.onSteeringAngle = onSteeringAngleCallback;
+                this.onStatus = onStatusCallback;
+                this.device = null;
+                this.server = null;
+                this.steerChar = null;
+                this.controlChar = null;
+                this.challengeChar = null;
+                this.zeroAngleOffsetDeg = 0.0;
+                this.latestAngleDeg = 0.0;
+                this.connected = false;
+            }
+
+            async connect() {
+                if (!navigator.bluetooth) {
+                    throw new Error('Web Bluetooth is not supported in this browser. Use Chrome/Edge.');
+                }
+
+                this.onStatus('connecting', 'Pairing Sterzo / Rizer...');
+                this.device = await navigator.bluetooth.requestDevice({
+                    filters: [
+                        { services: [BLE_UUIDS.ELITE_STEERING_SERVICE] },
+                        { namePrefix: 'STERZO' },
+                        { namePrefix: 'Sterzo' },
+                        { namePrefix: 'RIZER' },
+                        { namePrefix: 'Rizer' },
+                        { namePrefix: 'ELITE' },
+                        { namePrefix: 'Elite' }
+                    ],
+                    optionalServices: [
+                        BLE_UUIDS.ELITE_STEERING_SERVICE,
+                        BLE_UUIDS.FITNESS_MACHINE_SERVICE
+                    ]
+                });
+
+                this.device.addEventListener('gattserverdisconnected', () => {
+                    this.connected = false;
+                    this.steerChar = null;
+                    this.controlChar = null;
+                    this.challengeChar = null;
+                    this.latestAngleDeg = 0.0;
+                    this.onSteeringAngle(0.0, null);
+                    this.onStatus('disconnected', 'Pair Sterzo / Rizer');
+                });
+
+                this.server = await this.device.gatt.connect();
+                const steeringService = await this.server.getPrimaryService(BLE_UUIDS.ELITE_STEERING_SERVICE);
+                this.steerChar = await steeringService.getCharacteristic(BLE_UUIDS.ELITE_STEERING_ANGLE_CHAR);
+
+                // Elite Sterzo Smart / Elite Rizer challenge-response activation handshake (if required by firmware)
+                try {
+                    this.challengeChar = await steeringService.getCharacteristic(BLE_UUIDS.ELITE_STEERING_CHALLENGE_CHAR);
+                } catch (_) {}
+                try {
+                    this.controlChar = await steeringService.getCharacteristic(BLE_UUIDS.ELITE_STEERING_CONTROL_CHAR);
+                    await this.controlChar.startNotifications();
+                    this.controlChar.addEventListener('characteristicvaluechanged', async (e) => {
+                        await this.handleChallengeIndication(e.target.value);
+                    });
+                    if (this.challengeChar) {
+                        await this.challengeChar.writeValue(new Uint8Array([0x03, 0x10]));
+                    }
+                } catch (_) {}
+
+                await this.steerChar.startNotifications();
+                this.steerChar.addEventListener('characteristicvaluechanged', (e) => {
+                    this.parseSteeringMeasurement(e.target.value);
+                });
+
+                this.connected = true;
+                this.zeroAngleOffsetDeg = 0.0;
+                this.onStatus('connected', this.device.name || 'Sterzo / Rizer');
+            }
+
+            async handleChallengeIndication(dataView) {
+                if (!dataView || dataView.byteLength < 4 || !this.challengeChar) return;
+                try {
+                    if (dataView.getUint8(0) === 0x03 && dataView.getUint8(1) === 0x10) {
+                        const seed = dataView.getUint16(2, false);
+                        const resp = this.computeEliteChallengeResponse(seed);
+                        await this.challengeChar.writeValue(new Uint8Array([0x03, 0x11, (resp >> 8) & 0xFF, resp & 0xFF]));
+                    }
+                } catch (_) {}
+            }
+
+            computeEliteChallengeResponse(seed) {
+                let n = seed & 0xFFFF;
+                n = ((n + 0x9E3779B9) ^ (n << 6) ^ (n >>> 2)) & 0xFFFF;
+                return n;
+            }
+
+            recenter() {
+                this.zeroAngleOffsetDeg = this.latestAngleDeg || 0.0;
+                this.onSteeringAngle(0.0, 0.0);
+            }
+
+            parseSteeringMeasurement(dataView) {
+                if (!dataView || dataView.byteLength < 4) return null;
+                const rawAngleDeg = dataView.getFloat32(0, true);
+                if (!Number.isFinite(rawAngleDeg) || Math.abs(rawAngleDeg) > 90) return null;
+                this.latestAngleDeg = rawAngleDeg;
+                const calibratedDeg = rawAngleDeg - this.zeroAngleOffsetDeg;
+                const effectiveDeg = Math.abs(calibratedDeg) <= ELITE_STEER_DEADZONE_DEG ? 0.0 : calibratedDeg;
+                const normalizedInput = Math.max(-1.0, Math.min(1.0, effectiveDeg / ELITE_STEER_MAX_ANGLE_DEG));
+                this.onSteeringAngle(normalizedInput, calibratedDeg);
+                return calibratedDeg;
+            }
+        }
 
         class WahooKickrBluetooth {
             constructor(onTelemetryCallback, onStatusCallback) {
@@ -1700,8 +2183,17 @@
         const soundEngine = new ArcadeSoundEngine();
         const fxEngine = new VisualEffectsEngine(document.getElementById('fxCanvas'));
 
+        const CAMERA_VIEWS = {
+            1: 'Chase',
+            2: 'Far Chase',
+            3: 'Top-Down',
+            4: 'Front',
+            5: 'Front Far'
+        };
+
         const state = {
-            avatarType: 'dragon',
+            avatarType: 'aero_wyvern',
+            cameraView: 1,
             ftp: 250,
             accuracyToleranceWatts: 15,
             donutVisualSizeBoost: 1.0,
@@ -1723,6 +2215,7 @@
             rawKickrWatts: 0,
             kickrWattSamples: [],
             actualWatts: 0,
+            heartRate: null,
             cadence: 0,
             speedKmh: 0,
             totalDistanceMeters: 0,
@@ -1743,12 +2236,16 @@
             steeringEnabled: true,
             steerLeftPressed: false,
             steerRightPressed: false,
+            bleSteerInput: 0.0,
+            bleSteerAngleDeg: 0.0,
             dragonSteerOffsetX: 0.0,
             dragonHeadingAngle: 0.0,
             dragonWorldX: 0.0,
 
             samples: [],
-            lastSummary: null
+            lastSummary: null,
+            preparedScreenshotDataUrl: null,
+            preparedScreenshotTimestamp: null
         };
 
         function generateTerrainGradientProfile(totalDurationSec, mode) {
@@ -2207,6 +2704,73 @@
         // =========================================================================
         // 7. THREE.JS 3D DRAGON SKY GATES & OBSTACLE SIMULATION ENGINE
         // =========================================================================
+        // Cheap, allocation-free deterministic value-noise helpers for natural-looking procedural terrain.
+        // Optional `period` wraps the lattice so the result tiles seamlessly (used for textures).
+        function terrainHash2(ix, iy, period) {
+            if (period) {
+                ix = ((ix % period) + period) % period;
+                iy = ((iy % period) + period) % period;
+            }
+            let h = Math.imul(ix | 0, 374761393) ^ Math.imul(iy | 0, 668265263);
+            h = Math.imul(h ^ (h >>> 13), 1274126177);
+            h ^= h >>> 16;
+            return (h >>> 0) / 4294967295;
+        }
+
+        function terrainValueNoise2(x, y, period) {
+            const ix = Math.floor(x);
+            const iy = Math.floor(y);
+            const fx = x - ix;
+            const fy = y - iy;
+            const ux = fx * fx * (3 - 2 * fx);
+            const uy = fy * fy * (3 - 2 * fy);
+            const a = terrainHash2(ix, iy, period);
+            const b = terrainHash2(ix + 1, iy, period);
+            const c = terrainHash2(ix, iy + 1, period);
+            const d = terrainHash2(ix + 1, iy + 1, period);
+            return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
+        }
+
+        // Fractal Brownian motion in [0, 1]
+        function terrainFbm2(x, y, octaves, period) {
+            let sum = 0, amp = 0.5, norm = 0, freq = 1;
+            for (let o = 0; o < octaves; o++) {
+                sum += terrainValueNoise2(x * freq, y * freq, period ? period * freq : 0) * amp;
+                norm += amp;
+                amp *= 0.5;
+                freq *= 2;
+            }
+            return sum / norm;
+        }
+
+        // Ridged multifractal in [0, 1]: sharp crests and eroded gullies for alpine ranges
+        function terrainRidged2(x, y, octaves) {
+            let sum = 0, amp = 0.5, norm = 0, freq = 1, weight = 1;
+            for (let o = 0; o < octaves; o++) {
+                let n = 1 - Math.abs(terrainValueNoise2(x * freq + o * 17.3, y * freq - o * 9.1) * 2 - 1);
+                n *= n * weight;
+                weight = Math.min(1, n * 2);
+                sum += n * amp;
+                norm += amp;
+                amp *= 0.5;
+                freq *= 2.03;
+            }
+            return sum / norm;
+        }
+
+        function terrainSmoothstep(edge0, edge1, x) {
+            const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+            return t * t * (3 - 2 * t);
+        }
+
+        // Ground mesh lattice: vertices sit on a world-locked grid so geometry, colors and UVs never swim
+        const TERRAIN_GRID_WIDTH = 760;
+        const TERRAIN_GRID_SEGMENTS_X = 96;
+        const TERRAIN_GRID_CELL_Z = 8;
+        const TERRAIN_TEXTURE_TILE_SIZE = 32;
+        // Whole number of texture tiles; UV origin is re-based by this amount to keep float precision high
+        const TERRAIN_UV_REBASE_DISTANCE = TERRAIN_TEXTURE_TILE_SIZE * 64;
+
         class DragonSky3DEngine {
             constructor(containerEl) {
                 this.container = containerEl;
@@ -2266,7 +2830,7 @@
                     this.scene.fog = new THREE.FogExp2(0x122640, 0.0022);
 
                     this.camera = new THREE.PerspectiveCamera(68, width / height, 0.5, 750);
-                    this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+                    this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: true });
                     this.renderer.setSize(width, height);
                     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
                     this.renderer.shadowMap.enabled = true;
@@ -2295,7 +2859,7 @@
                     this.buildVolumetricClouds();
                     this.buildFlockOfBirds();
                     this.buildWindCurrentParticles();
-                    this.buildActiveAvatar(state.avatarType || 'dragon');
+                    this.buildActiveAvatar(state.avatarType || 'aero_wyvern');
                     this.seedInitialGatesAndObstacles();
 
                     window.addEventListener('resize', () => this.handleResize());
@@ -2439,45 +3003,62 @@
                 canvas.width = 512;
                 canvas.height = 512;
                 const ctx = canvas.getContext('2d');
+                const size = canvas.width;
 
-                // Neutral bright-gray base so vertex colors tint biomes while preserving crisp surface grain
-                ctx.fillStyle = '#d6dce5';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                // Layered geological rock strata & contour striations
-                for (let y = 0; y < canvas.height; y += 4) {
-                    const wave = Math.sin(y * 0.09) * 10 + Math.cos(y * 0.035) * 6;
-                    ctx.strokeStyle = (y % 8 === 0) ? 'rgba(30, 41, 59, 0.14)' : 'rgba(255, 255, 255, 0.11)';
-                    ctx.lineWidth = 2;
-                    ctx.beginPath();
-                    for (let x = 0; x <= canvas.width; x += 16) {
-                        const py = y + Math.sin((x + wave) * 0.049) * 5;
-                        if (x === 0) ctx.moveTo(x, py);
-                        else ctx.lineTo(x, py);
+                // Seamlessly tiling, neutral-gray natural ground grain (soil clumps, turf, fine grit) generated
+                // once at startup; vertex colors tint it per biome so no extra textures or draw calls are needed.
+                const img = ctx.createImageData(size, size);
+                const data = img.data;
+                const basePeriod = 8;
+                for (let y = 0; y < size; y++) {
+                    for (let x = 0; x < size; x++) {
+                        const u = (x / size) * basePeriod;
+                        const v = (y / size) * basePeriod;
+                        const clumps = terrainFbm2(u, v, 4, basePeriod);
+                        const fine = terrainValueNoise2(u * 16, v * 16, basePeriod * 16);
+                        const grit = terrainHash2(x, y, size);
+                        const shade = 0.84 + (clumps - 0.5) * 0.42 + (fine - 0.5) * 0.12 + (grit - 0.5) * 0.08;
+                        const c = Math.max(0, Math.min(255, shade * 255));
+                        const idx = (y * size + x) * 4;
+                        // Slight warm earthy bias so the ground doesn't look plastic
+                        data[idx] = Math.min(255, c * 1.02);
+                        data[idx + 1] = c;
+                        data[idx + 2] = c * 0.94;
+                        data[idx + 3] = 255;
                     }
-                    ctx.stroke();
                 }
+                ctx.putImageData(img, 0, 0);
 
-                // Organic turf, pebbles, and craggy rock patches
-                for (let i = 0; i < 3200; i++) {
-                    const px = (Math.sin(i * 91.7 + 17.3) * 0.5 + 0.5) * canvas.width;
-                    const py = (Math.cos(i * 157.3 + 43.1) * 0.5 + 0.5) * canvas.height;
-                    const w = 2 + (i % 7) * 2.2;
-                    const h = 2 + ((i * 3) % 5) * 1.8;
-                    if (i % 3 === 0) {
-                        ctx.fillStyle = 'rgba(15, 23, 42, 0.15)';
-                    } else if (i % 3 === 1) {
-                        ctx.fillStyle = 'rgba(248, 250, 252, 0.14)';
+                // Tiny grass blades and pebbles for close-range detail
+                for (let i = 0; i < 2600; i++) {
+                    const px = 3 + terrainHash2(i, 11) * (size - 6);
+                    const py = 3 + terrainHash2(i, 23) * (size - 6);
+                    if (i % 4 === 0) {
+                        ctx.fillStyle = terrainHash2(i, 37) > 0.5 ? 'rgba(40, 32, 24, 0.22)' : 'rgba(255, 250, 240, 0.16)';
+                        ctx.beginPath();
+                        ctx.arc(px, py, 0.8 + terrainHash2(i, 41) * 1.4, 0, Math.PI * 2);
+                        ctx.fill();
                     } else {
-                        ctx.fillStyle = 'rgba(71, 85, 105, 0.13)';
+                        const angle = (terrainHash2(i, 53) - 0.5) * 0.9;
+                        const len = 2 + terrainHash2(i, 67) * 3;
+                        ctx.strokeStyle = terrainHash2(i, 79) > 0.55 ? 'rgba(20, 30, 14, 0.18)' : 'rgba(250, 255, 235, 0.12)';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(px, py);
+                        ctx.lineTo(px + Math.sin(angle) * len, py - Math.cos(angle) * len);
+                        ctx.stroke();
                     }
-                    ctx.fillRect(px, py, w, h);
                 }
 
                 const texture = new THREE.CanvasTexture(canvas);
                 texture.wrapS = THREE.RepeatWrapping;
                 texture.wrapT = THREE.RepeatWrapping;
-                texture.repeat.set(22, 26);
+                // UVs are computed from world coordinates (1 UV unit = TERRAIN_TEXTURE_TILE_SIZE world units)
+                texture.repeat.set(1, 1);
+                // Anisotropic filtering keeps the ground crisp at grazing angles at negligible GPU cost
+                if (this.renderer && this.renderer.capabilities) {
+                    texture.anisotropy = Math.min(4, this.renderer.capabilities.getMaxAnisotropy());
+                }
                 return texture;
             }
 
@@ -2729,26 +3310,30 @@
                 const bankBlend = Math.min(1.0, Math.max(0.0, (distFromRiver - riverHalfW) / 18.0));
                 const distFromCenter = Math.abs(localX);
 
-                // Multi-octave rolling hills, eroded gullies, and sinuosity
+                // Low-frequency domain warp breaks up regular patterns so landforms look organic
+                const warpX = (terrainValueNoise2(localX * 0.012 + 31.7, worldZ * 0.012) - 0.5) * 30.0;
+                const warpZ = (terrainValueNoise2(localX * 0.012, worldZ * 0.012 - 57.1) - 0.5) * 30.0;
+                const wx = localX + warpX;
+                const wz = worldZ + warpZ;
+
+                // Fractal rolling meadows with a gentle rise toward the valley sides
                 const rollingHills = (
-                    Math.sin(localX * 0.048 + worldZ * 0.022) * Math.cos(worldZ * 0.036 - localX * 0.019) * 3.8
-                    + Math.sin(localX * 0.11 - worldZ * 0.065) * 1.65
-                    + Math.cos((localX + worldZ) * 0.085) * 1.15
+                    (terrainFbm2(wx * 0.022, wz * 0.022, 4) - 0.42) * 9.0
+                    + Math.max(0, distFromCenter - 10) * 0.05
                 ) * bankBlend;
 
-                // Steep canyon walls & jagged alpine mountain ranges rising on both sides
+                // Steep canyon walls & eroded alpine ranges rising on both sides
                 let mountainRise = 0;
                 if (distFromCenter > 26) {
                     const outDist = distFromCenter - 26;
                     const baseWall = Math.pow(outDist * 0.135, 1.52);
 
-                    // Sharp ridged mountain crests (1 - |sin|) for dramatic craggy peaks
-                    const ridge1 = 1.0 - Math.abs(Math.sin(localX * 0.024 + Math.cos(worldZ * 0.014) * 2.2));
-                    const ridge2 = 1.0 - Math.abs(Math.cos(worldZ * 0.021 - localX * 0.017));
-                    const jaggedPeaks = (ridge1 * ridge1 * 18.5 + ridge2 * 9.5) * Math.min(1.8, outDist / 52.0);
+                    // Ridged multifractal: sharp crests, spurs and eroded gullies
+                    const ridges = terrainRidged2(wx * 0.011, wz * 0.011, 5);
+                    const jaggedPeaks = ridges * 42.0 * Math.min(1.8, outDist / 52.0);
 
-                    // Terraced cliff ledges along the canyon walls
-                    const terraceWave = Math.sin(baseWall * 0.55) * 1.85;
+                    // Subtle stratified cliff ledges along the canyon walls
+                    const terraceWave = Math.sin(baseWall * 0.55) * 1.2;
 
                     mountainRise = baseWall + jaggedPeaks + terraceWave;
                 }
@@ -2756,9 +3341,145 @@
                 return (rollingHills + mountainRise) * bankBlend;
             }
 
+            /**
+             * Height of the rendered, piecewise-linear ground mesh at (localX, worldZ). Ground vertices sit on a
+             * world-locked lattice, so sampling the same triangles keeps vegetation and rocks exactly on the surface
+             * instead of floating above or sinking into the coarser mesh.
+             */
+            getRenderedGroundHeightAt(localX, worldZ) {
+                const cellX = TERRAIN_GRID_WIDTH / TERRAIN_GRID_SEGMENTS_X;
+                const halfW = TERRAIN_GRID_WIDTH / 2;
+                const gx = (localX + halfW) / cellX;
+                const gz = worldZ / TERRAIN_GRID_CELL_Z;
+                const ix = Math.max(0, Math.min(TERRAIN_GRID_SEGMENTS_X - 1, Math.floor(gx)));
+                const iz = Math.floor(gz);
+                const fx = Math.max(0, Math.min(1, gx - ix));
+                const fz = gz - iz;
+                const x0 = -halfW + ix * cellX;
+                const x1 = x0 + cellX;
+                const z0 = iz * TERRAIN_GRID_CELL_Z;
+                const z1 = z0 + TERRAIN_GRID_CELL_Z;
+                const hA = this.getTerrainElevationAt(x0, z0);
+                const hB = this.getTerrainElevationAt(x0, z1);
+                const hC = this.getTerrainElevationAt(x1, z1);
+                const hD = this.getTerrainElevationAt(x1, z0);
+                // PlaneGeometry splits every cell along the (x0, z1)-(x1, z0) diagonal
+                if (fx + fz <= 1) return hA + (hD - hA) * fx + (hB - hA) * fz;
+                return hC + (hB - hC) * (1 - fx) + (hD - hC) * (1 - fz);
+            }
+
+            /**
+             * Averages normals of coincident vertices so non-indexed primitives (e.g. icosahedrons) shade smoothly
+             * instead of looking faceted. Runs once per shared geometry at startup.
+             */
+            smoothGeometryNormals(geo) {
+                geo.computeVertexNormals();
+                const pos = geo.attributes.position;
+                const nor = geo.attributes.normal;
+                const keys = new Array(pos.count);
+                const sums = new Map();
+                for (let i = 0; i < pos.count; i++) {
+                    const k = Math.round(pos.getX(i) * 1000) + '_' + Math.round(pos.getY(i) * 1000) + '_' + Math.round(pos.getZ(i) * 1000);
+                    keys[i] = k;
+                    let acc = sums.get(k);
+                    if (!acc) {
+                        acc = [0, 0, 0];
+                        sums.set(k, acc);
+                    }
+                    acc[0] += nor.getX(i);
+                    acc[1] += nor.getY(i);
+                    acc[2] += nor.getZ(i);
+                }
+                for (let i = 0; i < pos.count; i++) {
+                    const acc = sums.get(keys[i]);
+                    const len = Math.hypot(acc[0], acc[1], acc[2]) || 1;
+                    nor.setXYZ(i, acc[0] / len, acc[1] / len, acc[2] / len);
+                }
+                nor.needsUpdate = true;
+                return geo;
+            }
+
+            /**
+             * Bakes parts ({ geometry, matrix, color, ao, topTint }) into one non-indexed geometry with vertex colors,
+             * so a whole tree / bush / rock outcrop renders with a single draw call per material.
+             * - ao: darkening toward the bottom of the merged object (cheap fake self-shadowing)
+             * - topTint: { color, amount } blended onto upward-facing surfaces (moss, sun-bleached tips)
+             */
+            mergeColoredParts(parts) {
+                const prepared = parts.map((p) => {
+                    const g = p.geometry.index ? p.geometry.toNonIndexed() : p.geometry.clone();
+                    g.applyMatrix4(p.matrix);
+                    return { g, p };
+                });
+                let total = 0;
+                let minY = Infinity;
+                let maxY = -Infinity;
+                prepared.forEach(({ g }) => {
+                    const pa = g.attributes.position;
+                    total += pa.count;
+                    for (let i = 0; i < pa.count; i++) {
+                        const y = pa.getY(i);
+                        if (y < minY) minY = y;
+                        if (y > maxY) maxY = y;
+                    }
+                });
+                const heightRange = Math.max(0.001, maxY - minY);
+
+                const positions = new Float32Array(total * 3);
+                const normals = new Float32Array(total * 3);
+                const uvs = new Float32Array(total * 2);
+                const colors = new Float32Array(total * 3);
+                const tint = new THREE.Color();
+                let offset = 0;
+                prepared.forEach(({ g, p }) => {
+                    const pa = g.attributes.position;
+                    const na = g.attributes.normal;
+                    const ua = g.attributes.uv;
+                    for (let i = 0; i < pa.count; i++) {
+                        const o = offset + i;
+                        const x = pa.getX(i);
+                        const y = pa.getY(i);
+                        const z = pa.getZ(i);
+                        const ny = na ? na.getY(i) : 1;
+                        positions[o * 3] = x;
+                        positions[o * 3 + 1] = y;
+                        positions[o * 3 + 2] = z;
+                        normals[o * 3] = na ? na.getX(i) : 0;
+                        normals[o * 3 + 1] = ny;
+                        normals[o * 3 + 2] = na ? na.getZ(i) : 0;
+                        uvs[o * 2] = ua ? ua.getX(i) : 0;
+                        uvs[o * 2 + 1] = ua ? ua.getY(i) : 0;
+
+                        tint.copy(p.color);
+                        if (p.topTint) {
+                            tint.lerp(p.topTint.color, terrainSmoothstep(0.45, 0.95, ny) * p.topTint.amount);
+                        }
+                        const heightT = (y - minY) / heightRange;
+                        const ao = 1.0 - (p.ao || 0) * (1.0 - heightT);
+                        const skyFacing = 0.84 + 0.16 * (0.5 + 0.5 * ny);
+                        // Position-keyed jitter so coincident vertices stay identical (no seams)
+                        const jitter = 0.9 + terrainHash2(Math.round(x * 40 + y * 13), Math.round(z * 40 - y * 29)) * 0.2;
+                        const shade = ao * skyFacing * jitter;
+                        colors[o * 3] = Math.min(1, tint.r * shade);
+                        colors[o * 3 + 1] = Math.min(1, tint.g * shade);
+                        colors[o * 3 + 2] = Math.min(1, tint.b * shade);
+                    }
+                    offset += pa.count;
+                    g.dispose();
+                });
+
+                const merged = new THREE.BufferGeometry();
+                merged.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                merged.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
+                merged.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+                merged.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+                merged.computeBoundingSphere();
+                return merged;
+            }
+
             buildGroundAndMountains() {
                 // Complex Multi-Octave Textured Valley & Mountain Terrain locked in world coordinates
-                const groundGeo = new THREE.PlaneGeometry(760, 800, 96, 100);
+                const groundGeo = new THREE.PlaneGeometry(TERRAIN_GRID_WIDTH, 800, TERRAIN_GRID_SEGMENTS_X, 800 / TERRAIN_GRID_CELL_Z);
                 groundGeo.rotateX(-Math.PI / 2);
                 const gPos = groundGeo.attributes.position;
                 this.groundBaseCoords = new Float32Array(gPos.count * 2);
@@ -2771,15 +3492,19 @@
                     gColors[i * 3 + 2] = 0.32;
                 }
                 groundGeo.setAttribute('color', new THREE.BufferAttribute(gColors, 3));
+                // Per-vertex scratch buffers reused every canyon update (no per-frame allocations)
+                this.groundElevScratch = new Float32Array(gPos.count);
+                this.groundShoreScratch = new Float32Array(gPos.count);
 
                 this.terrainTexture = this.createTerrainSurfaceTexture();
+                // Smooth-shaded matte ground: natural slopes instead of faceted low-poly look, same vertex count
                 const groundMat = new THREE.MeshPhongMaterial({
                     color: 0xffffff,
                     map: this.terrainTexture,
                     vertexColors: true,
-                    specular: 0x1e293b,
-                    shininess: 14,
-                    flatShading: true
+                    specular: 0x0a0d10,
+                    shininess: 6,
+                    flatShading: false
                 });
                 this.groundMesh = new THREE.Mesh(groundGeo, groundMat);
                 this.groundMesh.frustumCulled = false;
@@ -2843,6 +3568,12 @@
                 const gGeo = this.groundMesh.geometry;
                 const gPos = gGeo.attributes.position;
                 const gCol = gGeo.attributes.color;
+                const gUv = gGeo.attributes.uv;
+                const elevScratch = this.groundElevScratch;
+                const shoreScratch = this.groundShoreScratch;
+                // UVs derived from world-space position so the texture stays glued to the terrain as the mesh
+                // hops forward; the origin is only re-based by whole tiles, which is visually seamless
+                const uvOriginZ = Math.floor(anchorZ / TERRAIN_UV_REBASE_DISTANCE) * TERRAIN_UV_REBASE_DISTANCE;
                 for (let i = 0; i < gPos.count; i++) {
                     const localX = this.groundBaseCoords[i * 2];
                     const localZ = this.groundBaseCoords[i * 2 + 1];
@@ -2853,47 +3584,69 @@
                     const distFromRiver = Math.abs(localX - riverProfile.meanderShiftX);
                     const elevY = this.getTerrainElevationAt(localX, worldZ);
                     gPos.setXYZ(i, worldX, elevY, localZ);
-
-                    // Biome vertex coloring by elevation & distance from natural meandering river channel
-                    const microTone = (Math.sin(localX * 0.13 + worldZ * 0.11) * 0.04);
-                    let r, g, b;
-                    if (distFromRiver < riverProfile.halfWidth + 5.2) {
-                        // Wet gravel, sandbars & cobbled riverbank shore
-                        const bankT = Math.max(0, Math.min(1, (distFromRiver - riverProfile.halfWidth) / 5.2));
-                        r = 0.36 + bankT * 0.12 + microTone;
-                        g = 0.35 + bankT * 0.10 + microTone;
-                        b = 0.28 + bankT * 0.05 + microTone;
-                    } else if (elevY < 6.5) {
-                        // Lush emerald & moss valley meadows
-                        const t = Math.max(0, Math.min(1, elevY / 6.5));
-                        r = 0.04 + t * 0.06 + microTone;
-                        g = 0.42 + t * 0.10 + microTone;
-                        b = 0.27 - t * 0.04 + microTone;
-                    } else if (elevY < 22.0) {
-                        // Highland pine & craggy slate transition
-                        const t = (elevY - 6.5) / 15.5;
-                        r = 0.10 + t * 0.25 + microTone;
-                        g = 0.48 - t * 0.12 + microTone;
-                        b = 0.24 + t * 0.16 + microTone;
-                    } else if (elevY < 42.0) {
-                        // Steep granite & basalt canyon cliffs
-                        const t = (elevY - 22.0) / 20.0;
-                        r = 0.35 + t * 0.18 + microTone;
-                        g = 0.36 + t * 0.19 + microTone;
-                        b = 0.40 + t * 0.22 + microTone;
-                    } else {
-                        // High-altitude snow-capped alpine peaks & glacial ridges
-                        const t = Math.min(1, (elevY - 42.0) / 18.0);
-                        r = 0.72 + t * 0.24;
-                        g = 0.78 + t * 0.20;
-                        b = 0.86 + t * 0.14;
-                    }
-                    gCol.setXYZ(i, Math.max(0, Math.min(1, r)), Math.max(0, Math.min(1, g)), Math.max(0, Math.min(1, b)));
+                    gUv.setXY(i, worldX / TERRAIN_TEXTURE_TILE_SIZE, -(worldZ - uvOriginZ) / TERRAIN_TEXTURE_TILE_SIZE);
+                    elevScratch[i] = elevY;
+                    shoreScratch[i] = distFromRiver - riverProfile.halfWidth;
                 }
                 gPos.needsUpdate = true;
-                gCol.needsUpdate = true;
+                gUv.needsUpdate = true;
                 gGeo.computeVertexNormals();
                 gGeo.computeBoundingSphere();
+
+                // Slope- & altitude-aware biome coloring: grass on gentle ground, exposed rock on steep faces,
+                // snow only where it can settle, patchy meadows and gravel shores along the river
+                const gNorm = gGeo.attributes.normal;
+                for (let i = 0; i < gPos.count; i++) {
+                    const localX = this.groundBaseCoords[i * 2];
+                    const worldZ = anchorZ + this.groundBaseCoords[i * 2 + 1];
+                    const elevY = elevScratch[i];
+                    const shoreDist = shoreScratch[i];
+                    const slope = 1.0 - Math.max(0, Math.min(1, gNorm.getY(i)));
+                    const patch = terrainValueNoise2(localX * 0.045, worldZ * 0.045);
+                    const detail = terrainValueNoise2(localX * 0.21 + 5.3, worldZ * 0.21) - 0.5;
+
+                    // Meadow grass varying between lush and sun-dried patches
+                    let r = 0.13 + patch * 0.15;
+                    let g = 0.31 + patch * 0.08;
+                    let b = 0.10 + patch * 0.03;
+
+                    // Darker conifer-covered highland slopes
+                    const forestT = terrainSmoothstep(6.0, 20.0, elevY) * (0.6 + patch * 0.4);
+                    r += (0.10 - r) * forestT;
+                    g += (0.22 - g) * forestT;
+                    b += (0.11 - b) * forestT;
+
+                    // Exposed granite on steep faces and above the tree line, with faint strata banding
+                    const rockT = Math.min(1, terrainSmoothstep(0.12, 0.32, slope) + terrainSmoothstep(24.0, 38.0, elevY) * 0.7);
+                    const strata = Math.sin(elevY * 0.9 + patch * 3.0) * 0.035;
+                    r += (0.36 + strata - r) * rockT;
+                    g += (0.35 + strata - g) * rockT;
+                    b += (0.35 + strata - b) * rockT;
+
+                    // Snow settles above a ragged snowline but slides off near-vertical cliffs
+                    const snowLine = 40.0 + (patch - 0.5) * 14.0;
+                    const snowT = terrainSmoothstep(snowLine, snowLine + 7.0, elevY) * (1.0 - terrainSmoothstep(0.38, 0.62, slope));
+                    r += (0.88 - r) * snowT;
+                    g += (0.91 - g) * snowT;
+                    b += (0.96 - b) * snowT;
+
+                    // Wet gravel & sandbars along the riverbank
+                    if (shoreDist < 5.2) {
+                        const shoreT = 1.0 - Math.max(0, shoreDist) / 5.2;
+                        r += (0.42 - r) * shoreT;
+                        g += (0.39 - g) * shoreT;
+                        b += (0.32 - b) * shoreT;
+                    }
+
+                    const variation = 1.0 + detail * 0.22;
+                    gCol.setXYZ(
+                        i,
+                        Math.max(0, Math.min(1, r * variation)),
+                        Math.max(0, Math.min(1, g * variation)),
+                        Math.max(0, Math.min(1, b * variation))
+                    );
+                }
+                gCol.needsUpdate = true;
 
                 const rGeo = this.riverMesh.geometry;
                 const rPos = rGeo.attributes.position;
@@ -2926,36 +3679,88 @@
             }
 
             /**
-             * Computes a natural terrain placement offset (localX) for a tree at a given index and worldZ,
-             * forming organic forest groves and meadow clearings while staying clear of the river channel
-             * and steep upper cliff walls.
+             * Deterministic per-object random value in [0, 1] that changes every time an object is recycled
+             * (its slot baseZ shifts), so scenery never repeats in recognizable rows.
              */
-            sampleNaturalTreeTerrainOffset(index, worldZ) {
-                const sideSign = (index % 2 === 0) ? 1 : -1;
-                // Group trees into organic forest clusters with natural clearings across valley meadows and hillsides
-                const groveCluster = Math.floor(index / 6);
-                const memberIdx = index % 6;
-                const h1 = Math.sin(groveCluster * 73.19 + 11.7) * 0.5 + 0.5;
-                const h2 = Math.cos(index * 127.63 + worldZ * 0.031) * 0.5 + 0.5;
-                const h3 = Math.sin(index * 41.37 - groveCluster * 19.3);
-
-                const riverProfile = this.getRiverChannelProfileAtZ(worldZ);
-                const minShoreClearance = riverProfile.halfWidth + 4.4;
-                // Distribute lush forest across river terraces, valley meadows, and mountain slopes (up to 84m from center)
-                const radialDist = minShoreClearance + Math.pow(h1, 0.78) * 56.0 + memberIdx * 2.1 + h3 * 4.2;
-                const localX = sideSign * Math.max(minShoreClearance, Math.min(86.0, radialDist + (h2 - 0.5) * 7.5));
-                return localX;
+            scatterRandom(index, baseZ, salt) {
+                return terrainHash2(Math.imul(index + 1, 0x9E3779B1) ^ Math.imul(salt + 1, 40503), Math.floor(baseZ * 16) + salt * 9973);
             }
 
             /**
-             * Places and orients a tree group naturally onto the terrain at (sideOffset, zPos),
+             * Low-frequency woodland field in [0, 1]: high values form forest patches, low values open meadows.
+             */
+            getForestDensityAt(localX, worldZ) {
+                return terrainFbm2(localX * 0.021 + 113.7, worldZ * 0.021 - 41.3, 3);
+            }
+
+            getTerrainSlopeAt(localX, worldZ) {
+                const d = 1.5;
+                const dx = this.getTerrainElevationAt(localX + d, worldZ) - this.getTerrainElevationAt(localX - d, worldZ);
+                const dz = this.getTerrainElevationAt(localX, worldZ + d) - this.getTerrainElevationAt(localX, worldZ - d);
+                return Math.hypot(dx, dz) / (2 * d);
+            }
+
+            /**
+             * Picks a natural spot for a scenery object near its slot baseZ via rejection sampling against a
+             * density field, so objects gather into groves, thickets and boulder fields instead of regular rows.
+             */
+            scatterOnTerrain(entry, baseZ, opts) {
+                entry.baseZ = baseZ;
+                const idx = entry.index;
+                let best = null;
+                let bestDensity = -1;
+                for (let a = 0; a < opts.attempts; a++) {
+                    const s = a * 4;
+                    const zPos = baseZ + (this.scatterRandom(idx, baseZ, s) - 0.5) * 2 * opts.zJitter;
+                    const rp = this.getRiverChannelProfileAtZ(zPos);
+                    const side = this.scatterRandom(idx, baseZ, s + 1) < 0.5 ? -1 : 1;
+                    const minD = opts.minDist(rp);
+                    const dist = minD + Math.pow(this.scatterRandom(idx, baseZ, s + 2), opts.distBias) * Math.max(0, opts.maxDist - minD);
+                    const localX = rp.meanderShiftX + side * dist;
+                    const density = opts.density(localX, zPos, dist, rp);
+                    if (this.scatterRandom(idx, baseZ, s + 3) < density) {
+                        return { localX, zPos };
+                    }
+                    if (density > bestDensity) {
+                        bestDensity = density;
+                        best = { localX, zPos };
+                    }
+                }
+                return best;
+            }
+
+            sampleTreeScatterPosition(treeEntry, baseZ) {
+                return this.scatterOnTerrain(treeEntry, baseZ, {
+                    attempts: 14,
+                    zJitter: 10,
+                    distBias: 1.1,
+                    maxDist: 84,
+                    minDist: (rp) => rp.halfWidth + 4.4,
+                    density: (localX, zPos) => {
+                        // Woodland patches with denser groves inside, plus rare solitary trees in open meadows
+                        const canopy = terrainSmoothstep(0.42, 0.58, this.getForestDensityAt(localX, zPos));
+                        const grove = 0.45 + 0.55 * terrainFbm2(localX * 0.11 + 7.3, zPos * 0.11 - 2.9, 2);
+                        let d = 0.03 + canopy * grove * 0.97;
+                        // Fewer trees on cliffs and above the tree line
+                        d *= 1 - terrainSmoothstep(0.55, 1.15, this.getTerrainSlopeAt(localX, zPos));
+                        d *= 1 - terrainSmoothstep(26, 44, this.getTerrainElevationAt(localX, zPos));
+                        return d;
+                    }
+                });
+            }
+
+            /**
+             * Places and orients a tree group naturally onto the terrain near slot baseZ,
              * sinking the root base slightly into the ground so it never floats on slopes.
              */
-            placeTreeNaturallyOnTerrain(treeEntry, zPos) {
-                const sideOffset = this.sampleNaturalTreeTerrainOffset(treeEntry.index, zPos);
+            placeTreeNaturallyOnTerrain(treeEntry, baseZ) {
+                const spot = this.sampleTreeScatterPosition(treeEntry, baseZ);
+                const sideOffset = spot.localX;
+                const zPos = spot.zPos;
                 treeEntry.sideOffset = sideOffset;
+                treeEntry.mesh.rotation.y = this.scatterRandom(treeEntry.index, baseZ, 101) * Math.PI * 2;
                 const curveX = getSimulatedTurnOffsetX(zPos);
-                const groundY = this.getTerrainElevationAt(sideOffset, zPos);
+                const groundY = this.getRenderedGroundHeightAt(sideOffset, zPos);
 
                 // Estimate local lateral terrain slope for subtle natural trunk lean
                 const slopeDx = (
@@ -2992,8 +3797,7 @@
                     }
                 }
                 pos.needsUpdate = true;
-                geo.computeVertexNormals();
-                return geo;
+                return this.smoothGeometryNormals(geo);
             }
 
             /**
@@ -3100,18 +3904,14 @@
                 this.treeBarkTexture = this.createTreeBarkTexture();
                 this.treeFoliageTexture = this.createTreeFoliageTexture();
 
-                const barkMats = [
-                    new THREE.MeshLambertMaterial({ color: 0x78350f, map: this.treeBarkTexture }),
-                    new THREE.MeshLambertMaterial({ color: 0x5c4033, map: this.treeBarkTexture }),
-                    new THREE.MeshLambertMaterial({ color: 0x854d0e, map: this.treeBarkTexture })
-                ];
-                const foliageMats = [
-                    new THREE.MeshLambertMaterial({ color: 0x047857, map: this.treeFoliageTexture, flatShading: true }),
-                    new THREE.MeshLambertMaterial({ color: 0x059669, map: this.treeFoliageTexture, flatShading: true }),
-                    new THREE.MeshLambertMaterial({ color: 0x15803d, map: this.treeFoliageTexture, flatShading: true }),
-                    new THREE.MeshLambertMaterial({ color: 0x0d9488, map: this.treeFoliageTexture, flatShading: true }),
-                    new THREE.MeshLambertMaterial({ color: 0x4d7c0f, map: this.treeFoliageTexture, flatShading: true })
-                ];
+                // One shared material per surface; natural per-tree hues & self-shadowing are baked into vertex colors
+                this.treeBarkMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, map: this.treeBarkTexture, vertexColors: true });
+                this.foliageMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, map: this.treeFoliageTexture, vertexColors: true });
+
+                // Marker materials only identify part roles while the prototype trees are merged
+                const barkMarker = new THREE.MeshBasicMaterial();
+                const foliageMarkerA = new THREE.MeshBasicMaterial();
+                const foliageMarkerB = new THREE.MeshBasicMaterial();
 
                 const geometries = {
                     spruceTrunk: new THREE.CylinderGeometry(0.26, 0.62, 3.1, 7),
@@ -3143,10 +3943,55 @@
                     forkSubCrown: this.createOrganicCanopyGeometry(new THREE.IcosahedronGeometry(1.42, 1), 0.16, 15)
                 };
 
+                // Natural palettes [main, accent]: conifers dark blue-green, broadleaf warmer, birch light & yellowish
+                const foliagePalettes = [
+                    [[0x1f3d29, 0x2a4c30], [0x234430, 0x2f5436], [0x1b3625, 0x27472e]],
+                    [[0x3b5b26, 0x4b6b2d], [0x46632a, 0x567532], [0x405626, 0x5b6f2e]],
+                    [[0x1c3a2d, 0x274a35], [0x203f2b, 0x2c5034], [0x19352a, 0x244531]],
+                    [[0x4a6a2a, 0x5c7b34], [0x55722c, 0x678338], [0x4e6626, 0x60782f]]
+                ];
+                const barkColors = [0x7a5c44, 0x806248, 0x6e5440, 0xe6ded2];
+                const colorVariants = 3;
+                const treeGeoCache = [];
+                for (let model = 0; model < 4; model++) {
+                    treeGeoCache.push([]);
+                    for (let v = 0; v < colorVariants; v++) {
+                        const proto = this.createTreeModelVariant(model, v * 7 + model, [barkMarker], [foliageMarkerA, foliageMarkerB], geometries);
+                        proto.updateMatrixWorld(true);
+                        const barkParts = [];
+                        const foliageParts = [];
+                        const palette = foliagePalettes[model][v];
+                        proto.children.forEach((child) => {
+                            if (child.material === barkMarker) {
+                                barkParts.push({ geometry: child.geometry, matrix: child.matrix, color: new THREE.Color(barkColors[model]), ao: 0.45 });
+                            } else {
+                                foliageParts.push({
+                                    geometry: child.geometry,
+                                    matrix: child.matrix,
+                                    color: new THREE.Color(child.material === foliageMarkerA ? palette[0] : palette[1]),
+                                    ao: 0.5,
+                                    topTint: { color: new THREE.Color(0x7d8f3a), amount: 0.22 }
+                                });
+                            }
+                        });
+                        treeGeoCache[model].push({
+                            bark: this.mergeColoredParts(barkParts),
+                            foliage: this.mergeColoredParts(foliageParts)
+                        });
+                    }
+                }
+                barkMarker.dispose();
+                foliageMarkerA.dispose();
+                foliageMarkerB.dispose();
+
                 const treeCount = 290;
                 for (let i = 0; i < treeCount; i++) {
                     const modelType = i % 4;
-                    const treeGroup = this.createTreeModelVariant(modelType, i, barkMats, foliageMats, geometries);
+                    const cached = treeGeoCache[modelType][Math.floor(i / 4) % colorVariants];
+                    // Two draw calls per tree (bark + foliage) instead of one per trunk/branch/tier
+                    const treeGroup = new THREE.Group();
+                    treeGroup.add(new THREE.Mesh(cached.bark, this.treeBarkMaterial));
+                    treeGroup.add(new THREE.Mesh(cached.foliage, this.foliageMaterial));
 
                     // Wide, natural variation in tree size (saplings, medium woodland trees, towering old-growth giants)
                     const sizeRoll = (Math.sin(i * 59.17 + 9.3) * 0.5 + 0.5);
@@ -3174,28 +4019,35 @@
             }
 
             /**
-             * Places a bush or shrub cluster naturally along riverbanks, forest edges, and valley meadows.
+             * Places a bush or shrub naturally along riverbanks, forest edges, and in scattered meadow thickets.
              */
-            placeBushNaturallyOnTerrain(bushEntry, zPos) {
-                const idx = bushEntry.index;
-                const sideSign = (idx % 2 === 0) ? 1 : -1;
-                const riverProfile = this.getRiverChannelProfileAtZ(zPos);
-                const h1 = Math.sin(idx * 67.31 + zPos * 0.023) * 0.5 + 0.5;
-                const h2 = Math.cos(idx * 113.19 - zPos * 0.017) * 0.5 + 0.5;
-
-                // 40% of bushes grow as lush riparian shrubs near the riverbanks; 60% form woodland undergrowth & meadow thickets
-                let localX;
-                if (idx % 5 < 2) {
-                    const bankDist = riverProfile.halfWidth + 2.4 + h1 * 11.5;
-                    localX = riverProfile.meanderShiftX + sideSign * bankDist;
-                } else {
-                    const minClearance = riverProfile.halfWidth + 5.0;
-                    localX = sideSign * (minClearance + Math.pow(h1, 0.85) * 58.0 + (h2 - 0.5) * 6.0);
-                }
-
+            placeBushNaturallyOnTerrain(bushEntry, baseZ) {
+                const spot = this.scatterOnTerrain(bushEntry, baseZ, {
+                    attempts: 14,
+                    zJitter: 12,
+                    distBias: 1.35,
+                    maxDist: 72,
+                    minDist: (rp) => rp.halfWidth + 1.8,
+                    density: (localX, zPos, dist, rp) => {
+                        const thicket = 0.35 + 0.65 * terrainFbm2(localX * 0.14 - 3.1, zPos * 0.14 + 9.7, 2);
+                        // Lush riparian shrubs hugging the banks
+                        const riparian = 1 - terrainSmoothstep(2.0, 9.0, dist - rp.halfWidth);
+                        // Shrubs concentrate along woodland margins, sparse undergrowth beneath the canopy
+                        const forest = this.getForestDensityAt(localX, zPos);
+                        const edge = Math.exp(-Math.pow((forest - 0.44) / 0.06, 2));
+                        const under = terrainSmoothstep(0.46, 0.6, forest) * 0.22;
+                        let d = Math.max(riparian * 0.85, edge, under) * thicket + 0.02;
+                        d *= 1 - terrainSmoothstep(0.7, 1.3, this.getTerrainSlopeAt(localX, zPos));
+                        d *= 1 - terrainSmoothstep(30, 48, this.getTerrainElevationAt(localX, zPos));
+                        return d;
+                    }
+                });
+                const localX = spot.localX;
+                const zPos = spot.zPos;
+                bushEntry.mesh.rotation.y = this.scatterRandom(bushEntry.index, baseZ, 101) * Math.PI * 2;
                 bushEntry.sideOffset = localX;
                 const curveX = getSimulatedTurnOffsetX(zPos);
-                const groundY = this.getTerrainElevationAt(localX, zPos);
+                const groundY = this.getRenderedGroundHeightAt(localX, zPos);
                 const slopeDx = (
                     this.getTerrainElevationAt(localX + 1.2, zPos) -
                     this.getTerrainElevationAt(localX - 1.2, zPos)
@@ -3216,28 +4068,32 @@
                 if (!this.treeFoliageTexture) {
                     this.treeFoliageTexture = this.createTreeFoliageTexture();
                 }
+                if (!this.foliageMaterial) {
+                    this.foliageMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, map: this.treeFoliageTexture, vertexColors: true });
+                }
 
-                const bushMats = [
-                    new THREE.MeshLambertMaterial({ color: 0x15803d, map: this.treeFoliageTexture, flatShading: true }),
-                    new THREE.MeshLambertMaterial({ color: 0x059669, map: this.treeFoliageTexture, flatShading: true }),
-                    new THREE.MeshLambertMaterial({ color: 0x3f6212, map: this.treeFoliageTexture, flatShading: true }),
-                    new THREE.MeshLambertMaterial({ color: 0x0f766e, map: this.treeFoliageTexture, flatShading: true })
-                ];
-                const blossomMats = [
-                    new THREE.MeshLambertMaterial({ color: 0xfbbf24, flatShading: true }),
-                    new THREE.MeshLambertMaterial({ color: 0xf43f5e, flatShading: true }),
-                    new THREE.MeshLambertMaterial({ color: 0xc084fc, flatShading: true })
-                ];
+                // Marker materials identify part roles; their natural colors are baked into merged vertex colors
+                const markerColors = new Map();
+                const makeMarker = (hex) => {
+                    const m = new THREE.MeshBasicMaterial();
+                    markerColors.set(m, new THREE.Color(hex));
+                    return m;
+                };
+                const bushMats = [makeMarker(0x2f4f24), makeMarker(0x3c5d2a), makeMarker(0x4a5c26), makeMarker(0x2a4630)];
+                const blossomMats = [makeMarker(0xf2d16b), makeMarker(0xd25563), makeMarker(0xb592dc)];
 
                 const lobeGeos = [
                     this.createOrganicCanopyGeometry(new THREE.IcosahedronGeometry(1.05, 1), 0.18, 21),
                     this.createOrganicCanopyGeometry(new THREE.IcosahedronGeometry(0.88, 1), 0.20, 22),
                     this.createOrganicCanopyGeometry(new THREE.ConeGeometry(1.15, 1.45, 7), 0.16, 23)
                 ];
-                const berryGeo = new THREE.IcosahedronGeometry(0.24, 0);
+                const berryGeo = this.smoothGeometryNormals(new THREE.IcosahedronGeometry(0.24, 1));
 
+                // 12 merged prototypes cover every bush type (i % 3) x foliage color (i % 4) combination
+                const bushPrototypeCount = 12;
+                const bushGeos = [];
                 const bushCount = 190;
-                for (let i = 0; i < bushCount; i++) {
+                for (let i = 0; i < bushPrototypeCount; i++) {
                     const bushGroup = new THREE.Group();
                     const bushType = i % 3;
                     const primaryMat = bushMats[i % bushMats.length];
@@ -3309,6 +4165,22 @@
                         });
                     }
 
+                    bushGroup.updateMatrixWorld(true);
+                    const isBlossom = (m) => blossomMats.includes(m);
+                    bushGeos.push(this.mergeColoredParts(bushGroup.children.map((child) => ({
+                        geometry: child.geometry,
+                        matrix: child.matrix,
+                        color: markerColors.get(child.material),
+                        ao: isBlossom(child.material) ? 0 : 0.55,
+                        topTint: isBlossom(child.material) ? null : { color: new THREE.Color(0x76883a), amount: 0.2 }
+                    }))));
+                }
+                markerColors.forEach((_, m) => m.dispose());
+
+                for (let i = 0; i < bushCount; i++) {
+                    // Single draw call per bush (lobes + blossoms merged)
+                    const bushGroup = new THREE.Mesh(bushGeos[i % bushPrototypeCount], this.foliageMaterial);
+
                     const sizeRoll = Math.sin(i * 47.9 + 3.7) * 0.5 + 0.5;
                     const scale = 0.55 + Math.pow(sizeRoll, 1.15) * 1.35;
                     const wideScale = scale * (0.95 + (i % 5) * 0.08);
@@ -3334,7 +4206,7 @@
              * Creates an organically faceted, weathered boulder geometry for riverside and hillside stones.
              */
             createWeatheredStoneGeometry(seed = 1) {
-                const geo = new THREE.IcosahedronGeometry(1.0, 1);
+                const geo = new THREE.IcosahedronGeometry(1.0, 2);
                 const pos = geo.attributes.position;
                 const s1 = Math.sin(seed * 2.17 + 0.4);
                 const s2 = Math.cos(seed * 3.53 + 1.2);
@@ -3342,9 +4214,12 @@
                     let vx = pos.getX(i);
                     let vy = pos.getY(i);
                     let vz = pos.getZ(i);
+                    // Large weathered lumps + fine fractal pitting for natural boulder silhouettes
+                    const lumps = terrainFbm2(vx * 1.3 + vy * 0.7 + seed * 5.1, vz * 1.3 - vy * 0.9 + seed * 2.3, 3) - 0.5;
                     const n = 1.0
-                        + 0.18 * Math.sin(vx * 2.7 + seed * 1.3) * Math.cos(vz * 2.5 - seed)
-                        + 0.12 * Math.cos(vy * 3.1 + vx * 1.9 + s1);
+                        + 0.14 * Math.sin(vx * 2.7 + seed * 1.3) * Math.cos(vz * 2.5 - seed)
+                        + 0.08 * Math.cos(vy * 3.1 + vx * 1.9 + s1)
+                        + lumps * 0.32;
                     vx *= n * (1.15 + s1 * 0.18);
                     vy *= n * (0.72 + Math.abs(s2) * 0.22);
                     vz *= n * (1.05 - s1 * 0.14);
@@ -3355,31 +4230,35 @@
                     pos.setXYZ(i, vx, vy, vz);
                 }
                 pos.needsUpdate = true;
-                geo.computeVertexNormals();
-                return geo;
+                return this.smoothGeometryNormals(geo);
             }
 
             /**
-             * Places a stone or boulder cluster naturally along riverbanks, gravel bars, or rocky slopes.
+             * Places a stone or boulder naturally on gravel bars, riverbanks, rocky slopes, and boulder fields.
              */
-            placeStoneNaturallyOnTerrain(stoneEntry, zPos) {
-                const idx = stoneEntry.index;
-                const sideSign = (idx % 2 === 0) ? 1 : -1;
-                const riverProfile = this.getRiverChannelProfileAtZ(zPos);
-                const h = Math.sin(idx * 91.37 + zPos * 0.019) * 0.5 + 0.5;
-
-                // 55% of stones cluster along the rocky riverbanks & shallows, 45% scatter on valley hillsides
-                let localX;
-                if (idx % 9 < 5) {
-                    const bankDist = riverProfile.halfWidth - 0.6 + h * 7.2;
-                    localX = riverProfile.meanderShiftX + sideSign * bankDist;
-                } else {
-                    localX = sideSign * (16.5 + h * 52.0);
-                }
-
+            placeStoneNaturallyOnTerrain(stoneEntry, baseZ) {
+                const spot = this.scatterOnTerrain(stoneEntry, baseZ, {
+                    attempts: 14,
+                    zJitter: 14,
+                    distBias: 1.3,
+                    maxDist: 72,
+                    minDist: (rp) => rp.halfWidth - 1.5,
+                    density: (localX, zPos, dist, rp) => {
+                        const clump = 0.4 + 0.6 * terrainFbm2(localX * 0.2 + 5.3, zPos * 0.2 + 77.1, 2);
+                        // Gravel bars and bank boulders at the waterline
+                        const bank = Math.exp(-Math.pow((dist - rp.halfWidth - 0.5) / 2.6, 2));
+                        // Exposed rock on steep ground and scattered boulder fields
+                        const rocky = terrainSmoothstep(0.35, 0.9, this.getTerrainSlopeAt(localX, zPos));
+                        const boulderField = terrainSmoothstep(0.56, 0.7, terrainFbm2(localX * 0.05 + 51.0, zPos * 0.05 - 23.0, 3));
+                        return Math.max(bank * 0.9, rocky * 0.75, boulderField * 0.65) * clump + 0.015;
+                    }
+                });
+                const localX = spot.localX;
+                const zPos = spot.zPos;
+                stoneEntry.mesh.rotation.y = this.scatterRandom(stoneEntry.index, baseZ, 101) * Math.PI * 2;
                 stoneEntry.sideOffset = localX;
                 const curveX = getSimulatedTurnOffsetX(zPos);
-                const groundY = this.getTerrainElevationAt(localX, zPos);
+                const groundY = this.getRenderedGroundHeightAt(localX, zPos);
                 stoneEntry.mesh.position.set(
                     curveX + localX,
                     groundY - 0.18 * stoneEntry.scaleY,
@@ -3390,29 +4269,13 @@
             buildTerrainStones() {
                 this.stoneTexture = this.createStoneSurfaceTexture();
 
-                const stoneMats = [
-                    new THREE.MeshPhongMaterial({
-                        color: 0x94a3b8,
-                        map: this.stoneTexture,
-                        specular: 0x334155,
-                        shininess: 18,
-                        flatShading: true
-                    }),
-                    new THREE.MeshPhongMaterial({
-                        color: 0x78716c,
-                        map: this.stoneTexture,
-                        specular: 0x292524,
-                        shininess: 14,
-                        flatShading: true
-                    }),
-                    new THREE.MeshPhongMaterial({
-                        color: 0x64748b,
-                        map: this.stoneTexture,
-                        specular: 0x475569,
-                        shininess: 22,
-                        flatShading: true
-                    })
-                ];
+                // Matte rock: shared material, per-variant granite/sandstone tones, grime & moss baked into vertex colors
+                this.stoneMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, map: this.stoneTexture, vertexColors: true });
+                const stoneTones = [0xc9c4ba, 0xbfb1a2, 0xb3b6b8];
+                const mossTint = { color: new THREE.Color(0x4f6a34), amount: 0.45 };
+                const identity = new THREE.Matrix4();
+                const subRockMatrix = new THREE.Matrix4();
+                const stoneGeoCache = new Map();
 
                 const stoneGeometries = [];
                 for (let v = 0; v < 5; v++) {
@@ -3421,24 +4284,38 @@
 
                 const stoneCount = 110;
                 for (let i = 0; i < stoneCount; i++) {
-                    const stoneGroup = new THREE.Group();
-                    const mainGeo = stoneGeometries[i % stoneGeometries.length];
-                    const mainMat = stoneMats[i % stoneMats.length];
-                    const mainRock = new THREE.Mesh(mainGeo, mainMat);
-                    stoneGroup.add(mainRock);
-
-                    // Every third stone is a natural multi-rock outcrop with companion cobbles
-                    if (i % 3 === 0) {
-                        const subRock = new THREE.Mesh(
-                            stoneGeometries[(i + 2) % stoneGeometries.length],
-                            stoneMats[(i + 1) % stoneMats.length]
-                        );
-                        subRock.scale.set(0.58, 0.52, 0.62);
-                        subRock.position.set(0.85, -0.14, 0.42);
-                        subRock.rotation.y = i * 1.3;
-                        stoneGroup.add(subRock);
+                    // Every third stone is a natural multi-rock outcrop with a companion cobble (merged: 1 draw call)
+                    const isOutcrop = i % 3 === 0;
+                    const geoIdx = i % stoneGeometries.length;
+                    const toneIdx = i % stoneTones.length;
+                    const cacheKey = geoIdx + '_' + toneIdx + '_' + isOutcrop;
+                    let stoneGeo = stoneGeoCache.get(cacheKey);
+                    if (!stoneGeo) {
+                        const parts = [{
+                            geometry: stoneGeometries[geoIdx],
+                            matrix: identity,
+                            color: new THREE.Color(stoneTones[toneIdx]),
+                            ao: 0.5,
+                            topTint: toneIdx === 1 ? null : mossTint
+                        }];
+                        if (isOutcrop) {
+                            subRockMatrix.compose(
+                                new THREE.Vector3(0.85, -0.14, 0.42),
+                                new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), i * 1.3),
+                                new THREE.Vector3(0.58, 0.52, 0.62)
+                            );
+                            parts.push({
+                                geometry: stoneGeometries[(i + 2) % stoneGeometries.length],
+                                matrix: subRockMatrix,
+                                color: new THREE.Color(stoneTones[(toneIdx + 1) % stoneTones.length]).multiplyScalar(0.92),
+                                ao: 0.5,
+                                topTint: mossTint
+                            });
+                        }
+                        stoneGeo = this.mergeColoredParts(parts);
+                        stoneGeoCache.set(cacheKey, stoneGeo);
                     }
-
+                    const stoneGroup = new THREE.Mesh(stoneGeo, this.stoneMaterial);
                     const sizeFactor = 0.55 + Math.pow((Math.sin(i * 43.7 + 5.1) * 0.5 + 0.5), 1.4) * 2.15;
                     const sx = sizeFactor * (0.9 + (i % 4) * 0.14);
                     const sy = sizeFactor * (0.65 + (i % 3) * 0.16);
@@ -3641,18 +4518,6 @@
              * Avatar model builders and procedural textures are loaded from external `performed3d-models.js`
              * (window.Performed3DAvatarModels) and bound onto DragonSky3DEngine.prototype.
              */
-            createDragonScalesTexture() {
-                return window.Performed3DAvatarModels.createDragonScalesTexture.call(this);
-            }
-
-            createDragonScuteArmorTexture() {
-                return window.Performed3DAvatarModels.createDragonScuteArmorTexture.call(this);
-            }
-
-            createDragonWingMembraneTexture() {
-                return window.Performed3DAvatarModels.createDragonWingMembraneTexture.call(this);
-            }
-
             createDragonHornBoneTexture() {
                 return window.Performed3DAvatarModels.createDragonHornBoneTexture.call(this);
             }
@@ -3669,15 +4534,98 @@
                 );
             }
 
-            buildFlyingDragon() {
-                return window.Performed3DAvatarModels.buildFlyingDragon.call(this);
+            createWyvernHideTexture() {
+                return window.Performed3DAvatarModels.createWyvernHideTexture.call(this);
+            }
+
+            createWyvernMembraneTexture() {
+                return window.Performed3DAvatarModels.createWyvernMembraneTexture.call(this);
+            }
+
+            buildAeroWyvern() {
+                return window.Performed3DAvatarModels.buildAeroWyvern.call(this);
+            }
+
+            updateAeroWyvern(dt, ctx) {
+                return window.Performed3DAvatarModels.updateAeroWyvern.call(this, dt, ctx);
+            }
+
+            updateAvatarDynamics(dt, ctx) {
+                return window.Performed3DAvatarModels.updateAvatarDynamics.call(this, dt, ctx);
             }
 
             resetAvatarAnimationParts() {
                 return window.Performed3DAvatarModels.resetAvatarAnimationParts.call(this);
             }
 
-            buildActiveAvatar(avatarType = 'dragon') {
+            /**
+             * Positions the camera according to state.cameraView (keys 1-5):
+             * 1 chase, 2 far chase, 3 top-down, 4 front close, 5 front far.
+             * Front views sit ahead of the avatar and retreat with it while looking back at it.
+             * Switching views blends smoothly from the previous camera pose.
+             */
+            applyCameraPerspective(dt, { dragonWorldX, chasePos, chaseLook }) {
+                const view = CAMERA_VIEWS[state.cameraView] ? state.cameraView : 1;
+                const heading = this.dragonHeadingAngle || 0;
+                const fwdX = Math.sin(heading);
+                const fwdZ = -Math.cos(heading);
+                const dY = this.dragonCurrentY;
+                const dZ = this.flightZ;
+                let pos;
+                let look;
+                let roll = 0;
+
+                switch (view) {
+                    case 2:
+                        pos = [chasePos[0] - fwdX * 10, dY + 10.5, dZ + 36];
+                        look = [chaseLook[0], chaseLook[1] * 0.6 + dY * 0.4, chaseLook[2]];
+                        roll = this.dragonRollAngle * 0.08;
+                        break;
+                    case 3:
+                        pos = [dragonWorldX - fwdX * 6, dY + 42, dZ + 7];
+                        look = [dragonWorldX + fwdX * 10, dY, dZ - 10];
+                        break;
+                    case 4:
+                        pos = [dragonWorldX + fwdX * 11, dY + 1.8, dZ + fwdZ * 11];
+                        look = [dragonWorldX, dY + 0.4, dZ];
+                        break;
+                    case 5:
+                        pos = [dragonWorldX + fwdX * 30, dY + 7.5, dZ + fwdZ * 30];
+                        look = [dragonWorldX, dY, dZ];
+                        break;
+                    default:
+                        pos = chasePos;
+                        look = chaseLook;
+                        roll = this.dragonRollAngle * 0.14;
+                }
+
+                if (this.cameraViewApplied !== view) {
+                    const hadView = typeof this.cameraViewApplied === 'number';
+                    this.cameraViewApplied = view;
+                    this.cameraBlendPos = hadView
+                        ? [this.camera.position.x - pos[0], this.camera.position.y - pos[1], this.camera.position.z - pos[2]]
+                        : [0, 0, 0];
+                    this.cameraBlendLook = hadView && this.cameraLastLook
+                        ? [this.cameraLastLook[0] - look[0], this.cameraLastLook[1] - look[1], this.cameraLastLook[2] - look[2]]
+                        : [0, 0, 0];
+                }
+
+                const decay = Math.exp(-Math.max(0, dt) * 3.2);
+                for (let i = 0; i < 3; i++) {
+                    this.cameraBlendPos[i] *= decay;
+                    this.cameraBlendLook[i] *= decay;
+                }
+
+                const finalLook = [look[0] + this.cameraBlendLook[0], look[1] + this.cameraBlendLook[1], look[2] + this.cameraBlendLook[2]];
+                this.camera.position.set(pos[0] + this.cameraBlendPos[0], pos[1] + this.cameraBlendPos[1], pos[2] + this.cameraBlendPos[2]);
+                this.camera.lookAt(finalLook[0], finalLook[1], finalLook[2]);
+                if (view === 1 || view === 2) {
+                    this.camera.rotation.z = roll;
+                }
+                this.cameraLastLook = finalLook;
+            }
+
+            buildActiveAvatar(avatarType = 'aero_wyvern') {
                 return window.Performed3DAvatarModels.buildActiveAvatar.call(this, avatarType);
             }
 
@@ -4507,8 +5455,12 @@
                 const lookaheadCourseX = getSimulatedTurnOffsetX(this.flightZ - 22);
                 const turnDelta = lookaheadCourseX - currentCourseX;
 
+                const keyboardSteerInput = (state.steerRightPressed ? 1 : 0) - (state.steerLeftPressed ? 1 : 0);
+                const rawSteerInput = keyboardSteerInput !== 0
+                    ? keyboardSteerInput
+                    : (bleSteeringSensor.connected ? (state.bleSteerInput || 0) : 0);
                 const steerInput = state.steeringEnabled
-                    ? ((state.steerRightPressed ? 1 : 0) - (state.steerLeftPressed ? 1 : 0))
+                    ? Math.max(-1, Math.min(1, rawSteerInput))
                     : 0;
                 const stepDt = Math.min(0.05, Math.max(0.001, dt));
 
@@ -4833,6 +5785,18 @@
                     }
                 }
 
+                // Per-avatar flight dynamics (Aero Wyvern, Fuchur, E.T. bike, DeLorean, UFO) layered on top of the generic animation
+                this.updateAvatarDynamics(stepDt, {
+                    isPedaling: isPedalingWatts,
+                    isMovingForward,
+                    wattRatio: currentPedaledWatts / Math.max(100, state.ftp || 250),
+                    headingAngle: this.dragonHeadingAngle || 0,
+                    rollAngle: this.dragonRollAngle || 0,
+                    pitchAngle: this.dragonPitchAngle || 0,
+                    maxRollAngle: DRAGON_MAX_ROLL_ANGLE,
+                    verticalVelocity: this.dragonVelocityY || 0
+                });
+
                 const tolW = getAccuracyToleranceWatts();
 
                 // Chase Camera follows behind and slightly above the dragon, keeping the dragon in view while reflecting its heading and 3D position
@@ -4844,7 +5808,6 @@
                 } else {
                     this.cameraCurrentY += (desiredCamY - this.cameraCurrentY) * Math.min(1, dt * 4.5);
                 }
-                this.camera.position.set(camX, this.cameraCurrentY, camZ);
 
                 const lookTargetZ = this.flightZ - 36;
                 const headingLookX = dragonWorldX + Math.sin(this.dragonHeadingAngle) * 28.0;
@@ -4856,8 +5819,12 @@
                 } else {
                     this.cameraLookTargetY += (desiredLookTargetY - this.cameraLookTargetY) * Math.min(1, dt * 3.5);
                 }
-                this.camera.lookAt(lookTargetX, this.cameraLookTargetY, lookTargetZ);
-                this.camera.rotation.z = this.dragonRollAngle * 0.14;
+
+                this.applyCameraPerspective(dt, {
+                    dragonWorldX,
+                    chasePos: [camX, this.cameraCurrentY, camZ],
+                    chaseLook: [lookTargetX, this.cameraLookTargetY, lookTargetZ]
+                });
 
                 // Keep canyon floor & river fixed in world coordinates in the middle of the canyon
                 this.updateCanyonAndRiverWorldGeometry(this.flightZ);
@@ -4875,20 +5842,17 @@
                     // Recycle forest trees, bushes & stones as the dragon flies forward at high speed
                     this.trees.forEach((t) => {
                         if (t.mesh.position.z > this.flightZ + 28) {
-                            const newZ = t.mesh.position.z - 520;
-                            this.placeTreeNaturallyOnTerrain(t, newZ);
+                            this.placeTreeNaturallyOnTerrain(t, t.baseZ - 520);
                         }
                     });
                     this.bushes.forEach((b) => {
                         if (b.mesh.position.z > this.flightZ + 28) {
-                            const newZ = b.mesh.position.z - 520;
-                            this.placeBushNaturallyOnTerrain(b, newZ);
+                            this.placeBushNaturallyOnTerrain(b, b.baseZ - 520);
                         }
                     });
                     this.stones.forEach((s) => {
                         if (s.mesh.position.z > this.flightZ + 28) {
-                            const newZ = s.mesh.position.z - 520;
-                            this.placeStoneNaturallyOnTerrain(s, newZ);
+                            this.placeStoneNaturallyOnTerrain(s, s.baseZ - 520);
                         }
                     });
 
@@ -5228,6 +6192,116 @@
             return Math.round(weightedSum / weightTotal);
         }
 
+        const bleHrmSensor = new BleHeartRateMonitor(
+            (bpm) => {
+                state.heartRate = (bpm !== null && bpm !== undefined && bpm > 0) ? Math.round(bpm) : null;
+                updateLiveHud();
+            },
+            (status, label) => {
+                const btn = document.getElementById('connectHrmBleBtn');
+                const text = document.getElementById('bleHrmStatusText');
+                const dot = document.getElementById('bleHrmStatusDot');
+                if (text) text.textContent = label;
+                if (!btn || !dot) return;
+                if (status === 'connected') {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-400/40';
+                    dot.className = 'w-2 h-2 rounded-full bg-emerald-200 animate-ping';
+                } else if (status === 'connecting') {
+                    dot.className = 'w-2 h-2 rounded-full bg-amber-300 animate-pulse';
+                } else {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-rose-700/80 hover:bg-rose-600 text-white border border-rose-400/30';
+                    dot.className = 'w-2 h-2 rounded-full bg-gray-300';
+                }
+            }
+        );
+
+        const bleCadenceSensor = new BleCyclingSpeedCadenceSensor(
+            'cadence',
+            (measurement) => {
+                if (measurement.cadence !== null && measurement.cadence !== undefined) {
+                    state.cadence = Math.max(0, Math.round(measurement.cadence));
+                }
+                if (!bleSpeedSensor.connected && measurement.speedKmh !== null && measurement.speedKmh !== undefined) {
+                    state.speedKmh = Math.max(0, measurement.speedKmh);
+                }
+                updateLiveHud();
+            },
+            (status, label) => {
+                const btn = document.getElementById('connectCadenceBleBtn');
+                const text = document.getElementById('bleCadenceStatusText');
+                const dot = document.getElementById('bleCadenceStatusDot');
+                if (text) text.textContent = label;
+                if (!btn || !dot) return;
+                if (status === 'connected') {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-400/40';
+                    dot.className = 'w-2 h-2 rounded-full bg-emerald-200 animate-ping';
+                } else if (status === 'connecting') {
+                    dot.className = 'w-2 h-2 rounded-full bg-amber-300 animate-pulse';
+                } else {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-emerald-700/80 hover:bg-emerald-600 text-white border border-emerald-400/30';
+                    dot.className = 'w-2 h-2 rounded-full bg-gray-300';
+                }
+            }
+        );
+
+        const bleSpeedSensor = new BleCyclingSpeedCadenceSensor(
+            'speed',
+            (measurement) => {
+                if (measurement.speedKmh !== null && measurement.speedKmh !== undefined) {
+                    state.speedKmh = Math.max(0, measurement.speedKmh);
+                }
+                if (!bleCadenceSensor.connected && measurement.cadence !== null && measurement.cadence !== undefined) {
+                    state.cadence = Math.max(0, Math.round(measurement.cadence));
+                }
+                updateLiveHud();
+            },
+            (status, label) => {
+                const btn = document.getElementById('connectSpeedBleBtn');
+                const text = document.getElementById('bleSpeedStatusText');
+                const dot = document.getElementById('bleSpeedStatusDot');
+                if (text) text.textContent = label;
+                if (!btn || !dot) return;
+                if (status === 'connected') {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-400/40';
+                    dot.className = 'w-2 h-2 rounded-full bg-emerald-200 animate-ping';
+                } else if (status === 'connecting') {
+                    dot.className = 'w-2 h-2 rounded-full bg-amber-300 animate-pulse';
+                } else {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-cyan-700/80 hover:bg-cyan-600 text-white border border-cyan-400/30';
+                    dot.className = 'w-2 h-2 rounded-full bg-gray-300';
+                }
+            }
+        );
+
+        const bleSteeringSensor = new BleEliteSteeringSensor(
+            (normalizedInput, angleDeg) => {
+                state.bleSteerInput = normalizedInput || 0.0;
+                state.bleSteerAngleDeg = (angleDeg !== null && angleDeg !== undefined) ? angleDeg : 0.0;
+                const text = document.getElementById('bleSteerStatusText');
+                if (text && bleSteeringSensor.connected) {
+                    const nameLabel = (bleSteeringSensor.device && bleSteeringSensor.device.name) || 'Sterzo / Rizer';
+                    const degStr = (state.bleSteerAngleDeg >= 0 ? '+' : '') + state.bleSteerAngleDeg.toFixed(1) + '°';
+                    text.textContent = `${nameLabel} (${degStr})`;
+                }
+            },
+            (status, label) => {
+                const btn = document.getElementById('connectSteerBleBtn');
+                const text = document.getElementById('bleSteerStatusText');
+                const dot = document.getElementById('bleSteerStatusDot');
+                if (text) text.textContent = label;
+                if (!btn || !dot) return;
+                if (status === 'connected') {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-400/40';
+                    dot.className = 'w-2 h-2 rounded-full bg-emerald-200 animate-ping';
+                } else if (status === 'connecting') {
+                    dot.className = 'w-2 h-2 rounded-full bg-amber-300 animate-pulse';
+                } else {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md bg-purple-700/80 hover:bg-purple-600 text-white border border-purple-400/30';
+                    dot.className = 'w-2 h-2 rounded-full bg-gray-300';
+                }
+            }
+        );
+
         const bleTrainer = new WahooKickrBluetooth(
             (telemetry) => {
                 if (telemetry.watts !== null && telemetry.watts !== undefined) {
@@ -5235,15 +6309,19 @@
                 } else if (state.kickrWattSamples.length > 0) {
                     state.actualWatts = getThreeSecondAverageKickrWatts();
                 }
-                if (telemetry.cadence !== null && telemetry.cadence !== undefined && telemetry.cadence > 0) {
-                    state.cadence = telemetry.cadence;
-                } else if (state.actualWatts > 0 && state.cadence === 0) {
-                    state.cadence = 85;
+                if (!bleCadenceSensor.connected) {
+                    if (telemetry.cadence !== null && telemetry.cadence !== undefined && telemetry.cadence > 0) {
+                        state.cadence = telemetry.cadence;
+                    } else if (state.actualWatts > 0 && state.cadence === 0) {
+                        state.cadence = 85;
+                    }
                 }
-                if (telemetry.speedKmh !== null && telemetry.speedKmh !== undefined) {
-                    state.speedKmh = telemetry.speedKmh;
-                } else {
-                    state.speedKmh = estimateSpeedMpsFromWatts(state.actualWatts) * 3.6;
+                if (!bleSpeedSensor.connected) {
+                    if (telemetry.speedKmh !== null && telemetry.speedKmh !== undefined) {
+                        state.speedKmh = telemetry.speedKmh;
+                    } else {
+                        state.speedKmh = estimateSpeedMpsFromWatts(state.actualWatts) * 3.6;
+                    }
                 }
                 updateLiveHud();
             },
@@ -5647,7 +6725,7 @@
                 }
             }
 
-            // Upper-Right Orange Game Points, Streak Duration & Currently Pedaled Watts
+            // Upper-Right Orange Game Points, Streak Duration, Currently Pedaled Watts, Heart Rate, Cadence & Speed
             const scoreEl = document.getElementById('totalScoreDisplay');
             if (scoreEl) {
                 const formattedScore = formatSwissNumber(state.totalScore);
@@ -5662,6 +6740,16 @@
             if (streakEl) streakEl.textContent = `${formatSwissNumber(state.streakSeconds)}s`;
             const actualWattsEl = document.getElementById('actualWattsDisplay');
             if (actualWattsEl) actualWattsEl.textContent = formatSwissNumber(state.actualWatts);
+            const heartRateEl = document.getElementById('heartRateDisplay');
+            if (heartRateEl) {
+                heartRateEl.textContent = (state.heartRate !== null && state.heartRate > 0)
+                    ? formatSwissNumber(state.heartRate)
+                    : '--';
+            }
+            const cadenceEl = document.getElementById('cadenceDisplay');
+            if (cadenceEl) cadenceEl.textContent = formatSwissNumber(state.cadence);
+            const speedEl = document.getElementById('speedDisplay');
+            if (speedEl) speedEl.textContent = (Number(state.speedKmh) || 0).toFixed(1);
 
             drawWorkoutTimeline();
         }
@@ -5679,6 +6767,8 @@
                     tss: 0,
                     totalWorkJoules: 0,
                     avgCadence: 0,
+                    avgHeartRate: null,
+                    maxHeartRate: null,
                     totalDistanceMeters: 0
                 };
             }
@@ -5687,17 +6777,27 @@
             let sumTargetWatts = 0;
             let maxWatts = 0;
             let sumCadence = 0;
+            let sumHeartRate = 0;
+            let countHeartRate = 0;
+            let maxHeartRate = 0;
 
             state.samples.forEach((s) => {
                 sumWatts += s.actualWatts;
                 sumTargetWatts += s.targetWatts;
                 if (s.actualWatts > maxWatts) maxWatts = s.actualWatts;
                 sumCadence += s.cadence;
+                if (s.heartRate !== null && s.heartRate !== undefined && s.heartRate > 0) {
+                    sumHeartRate += s.heartRate;
+                    countHeartRate += 1;
+                    if (s.heartRate > maxHeartRate) maxHeartRate = s.heartRate;
+                }
             });
 
             const avgWatts = sumWatts / count;
             const expectedAvgWatts = sumTargetWatts / count;
             const avgCadence = sumCadence / count;
+            const avgHeartRate = countHeartRate > 0 ? sumHeartRate / countHeartRate : null;
+            const resolvedMaxHeartRate = countHeartRate > 0 ? maxHeartRate : null;
 
             let sumFourthPower = 0;
             let rollingSum = 0;
@@ -5726,6 +6826,8 @@
                 tss,
                 totalWorkJoules: sumWatts,
                 avgCadence,
+                avgHeartRate,
+                maxHeartRate: resolvedMaxHeartRate,
                 totalDistanceMeters: state.totalDistanceMeters,
                 ftp
             };
@@ -5757,14 +6859,18 @@
                 } else {
                     state.actualWatts = parseInt(slider.value, 10) || 0;
                 }
-                state.cadence = state.actualWatts > 0 ? Math.round(88 + (Math.random() - 0.5) * 6) : 0;
-                state.speedKmh = estimateSpeedMpsFromWatts(state.actualWatts) * 3.6;
+                if (!bleCadenceSensor.connected) {
+                    state.cadence = state.actualWatts > 0 ? Math.round(88 + (Math.random() - 0.5) * 6) : 0;
+                }
+                if (!bleSpeedSensor.connected) {
+                    state.speedKmh = estimateSpeedMpsFromWatts(state.actualWatts) * 3.6;
+                }
             }
 
             // Stop forward motion and workout progression when the user is not generating any watts
             if (state.actualWatts <= 0) {
-                state.cadence = 0;
-                state.speedKmh = 0;
+                if (!bleCadenceSensor.connected) state.cadence = 0;
+                if (!bleSpeedSensor.connected) state.speedKmh = 0;
                 state.streakSeconds = 0;
                 state.comboMultiplier = 1.0;
                 state.lastPointsAwarded = 0;
@@ -5830,6 +6936,7 @@
                 elapsedSec: state.elapsedSec,
                 targetWatts,
                 actualWatts: state.actualWatts,
+                heartRate: state.heartRate,
                 cadence: state.cadence,
                 speedMps,
                 distanceMeters: state.totalDistanceMeters,
@@ -5948,6 +7055,9 @@
             state.dragonHeadingAngle = 0;
             state.dragonWorldX = getSimulatedTurnOffsetX(0);
             state.samples = [];
+            state.preparedScreenshotDataUrl = null;
+            state.preparedScreenshotTimestamp = null;
+            updateScreenshotButtonsUI(false);
 
             if (dragon3D) {
                 dragon3D.seedInitialGatesAndObstacles();
@@ -5970,6 +7080,7 @@
                     elapsedSec: 0,
                     targetWatts,
                     actualWatts: state.actualWatts || targetWatts,
+                    heartRate: state.heartRate,
                     cadence: state.cadence || 85,
                     speedMps: estimateSpeedMpsFromWatts(state.actualWatts || targetWatts),
                     distanceMeters: 10,
@@ -6018,6 +7129,8 @@
             document.getElementById('summaryWorkKj').textContent = (metrics.totalWorkJoules / 1000).toFixed(1);
             document.getElementById('summaryAvgCadence').textContent = Math.round(metrics.avgCadence);
 
+            syncSummaryScreenshotDialogUI();
+
             const modal = document.getElementById('summaryModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -6061,8 +7174,8 @@
                 btn.className = 'px-2.5 py-2 rounded-xl font-semibold text-xs flex items-center gap-1.5 bg-gray-800/90 hover:bg-gray-700 text-gray-300 border border-gray-700 transition cursor-pointer';
                 if (!bleTrainer.connected) {
                     state.actualWatts = 0;
-                    state.cadence = 0;
-                    state.speedKmh = 0;
+                    if (!bleCadenceSensor.connected) state.cadence = 0;
+                    if (!bleSpeedSensor.connected) state.speedKmh = 0;
                 }
             }
             updateHeaderAndSetupVisibility();
@@ -6098,8 +7211,9 @@
         });
 
         function setAvatarType(avatarType) {
-            const validAvatars = ['dragon', 'fuchur', 'et_bike', 'delorean', 'mars_ufo'];
-            const chosen = validAvatars.includes(avatarType) ? avatarType : 'dragon';
+            const validAvatars = ['aero_wyvern', 'fuchur', 'et_bike', 'delorean', 'mars_ufo'];
+            // Legacy saved value 'dragon' (removed avatar) and unknown values fall back to the Aero Wyvern
+            const chosen = validAvatars.includes(avatarType) ? avatarType : 'aero_wyvern';
             state.avatarType = chosen;
             localStorage.setItem('performed_avatar_type', chosen);
 
@@ -6127,6 +7241,23 @@
                 setAvatarType(e.target.value);
             });
         }
+
+        function setCameraView(view) {
+            const chosen = CAMERA_VIEWS[view] ? Number(view) : 1;
+            state.cameraView = chosen;
+            localStorage.setItem('performed_camera_view', String(chosen));
+            ['cameraViewSelect', 'compactCameraViewSelect'].forEach((id) => {
+                const sel = document.getElementById(id);
+                if (sel) sel.value = String(chosen);
+            });
+        }
+
+        ['cameraViewSelect', 'compactCameraViewSelect'].forEach((id) => {
+            const sel = document.getElementById(id);
+            if (sel) {
+                sel.addEventListener('change', (e) => setCameraView(parseInt(e.target.value, 10)));
+            }
+        });
 
         function setSteeringEnabled(enabled) {
             state.steeringEnabled = Boolean(enabled);
@@ -6181,6 +7312,12 @@
         // Spacebar handler to destroy incoming 3D obstacles with Dragon Fire & Left/Right keyboard bindings to steer the dragon
         window.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+            const cameraKeyMatch = /^(?:Digit|Numpad)([1-5])$/.exec(e.code);
+            if (cameraKeyMatch && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                e.preventDefault();
+                setCameraView(parseInt(cameraKeyMatch[1], 10));
+                return;
+            }
             if (e.code === 'Space') {
                 e.preventDefault();
                 if (dragon3D) {
@@ -6192,6 +7329,19 @@
             } else if (state.steeringEnabled && (e.code === 'ArrowRight' || e.code === 'KeyD')) {
                 e.preventDefault();
                 state.steerRightPressed = true;
+            } else if (state.simMode && (e.code === 'ArrowUp' || e.code === 'ArrowDown')) {
+                e.preventDefault();
+                const slider = document.getElementById('simWattSlider');
+                const step = (e.shiftKey ? 25 : 10) * (e.code === 'ArrowUp' ? 1 : -1);
+                const min = parseInt(slider.min, 10) || 0;
+                const max = parseInt(slider.max, 10) || 600;
+                const newWatts = Math.max(min, Math.min(max, (state.actualWatts || 0) + step));
+                state.simAutoJitter = false;
+                document.getElementById('simAutoFollowCheck').checked = false;
+                state.actualWatts = newWatts;
+                slider.value = newWatts;
+                document.getElementById('simWattReadout').textContent = `${newWatts} W`;
+                updateLiveHud();
             }
         });
 
@@ -6235,6 +7385,9 @@
         const steerCenterBtn = document.getElementById('steerCenterBtn');
         if (steerCenterBtn) {
             steerCenterBtn.addEventListener('click', () => {
+                if (bleSteeringSensor.connected) {
+                    bleSteeringSensor.recenter();
+                }
                 state.dragonSteerOffsetX = 0;
                 if (dragon3D) {
                     const centerZ = dragon3D.flightZ || 0;
@@ -6250,13 +7403,72 @@
             });
         }
 
+        function isBlePairingCancelledError(err) {
+            if (!err) return false;
+            const msg = String(err.message || err).toLowerCase();
+            return err.name === 'NotFoundError' ||
+                err.name === 'AbortError' ||
+                msg.includes('user cancelled') ||
+                msg.includes('user canceled') ||
+                msg.includes('requestdevice() chooser');
+        }
+
         document.getElementById('connectBleBtn').addEventListener('click', async () => {
             try {
                 await bleTrainer.connect();
                 if (state.simMode) toggleSimMode(false);
             } catch (err) {
-                alert(err.message || 'Could not connect to Wahoo KICKR via Bluetooth.');
+                if (!isBlePairingCancelledError(err)) {
+                    alert(err.message || 'Could not connect to Wahoo KICKR via Bluetooth.');
+                }
                 bleTrainer.onStatus('disconnected', 'Connect Wahoo KICKR');
+            }
+        });
+
+        document.getElementById('connectHrmBleBtn').addEventListener('click', async () => {
+            try {
+                await bleHrmSensor.connect();
+            } catch (err) {
+                if (!isBlePairingCancelledError(err)) {
+                    alert(err.message || 'Could not connect to BLE Heart Rate Monitor.');
+                }
+                bleHrmSensor.onStatus('disconnected', 'Pair HRM');
+            }
+        });
+
+        document.getElementById('connectCadenceBleBtn').addEventListener('click', async () => {
+            try {
+                await bleCadenceSensor.connect();
+            } catch (err) {
+                if (!isBlePairingCancelledError(err)) {
+                    alert(err.message || 'Could not connect to BLE Cadence Sensor.');
+                }
+                bleCadenceSensor.onStatus('disconnected', 'Pair Cadence');
+            }
+        });
+
+        document.getElementById('connectSpeedBleBtn').addEventListener('click', async () => {
+            try {
+                await bleSpeedSensor.connect();
+            } catch (err) {
+                if (!isBlePairingCancelledError(err)) {
+                    alert(err.message || 'Could not connect to BLE Speed Sensor.');
+                }
+                bleSpeedSensor.onStatus('disconnected', 'Pair Speed');
+            }
+        });
+
+        document.getElementById('connectSteerBleBtn').addEventListener('click', async () => {
+            try {
+                await bleSteeringSensor.connect();
+                if (!state.steeringEnabled) {
+                    setSteeringEnabled(true);
+                }
+            } catch (err) {
+                if (!isBlePairingCancelledError(err)) {
+                    alert(err.message || 'Could not connect to Elite Sterzo / Rizer steering device.');
+                }
+                bleSteeringSensor.onStatus('disconnected', 'Pair Sterzo / Rizer');
             }
         });
 
@@ -6418,6 +7630,129 @@
         document.getElementById('skipSegmentBtn').addEventListener('click', handleSkipSegment);
         document.getElementById('compactSkipSegmentBtn').addEventListener('click', handleSkipSegment);
 
+        function updateScreenshotButtonsUI(justCaptured = false) {
+            const hasScreenshot = Boolean(state.preparedScreenshotDataUrl);
+            const mainText = document.getElementById('screenshotBtnText');
+            const compactText = document.getElementById('compactScreenshotBtnText');
+            const label = justCaptured ? 'Saved!' : (hasScreenshot ? 'Screenshot Ready' : 'Screenshot');
+            if (mainText) mainText.textContent = label;
+            if (compactText) compactText.textContent = label;
+        }
+
+        function syncSummaryScreenshotDialogUI() {
+            const sectionEl = document.getElementById('summaryScreenshotSection');
+            const previewEl = document.getElementById('summaryScreenshotPreview');
+            const timestampEl = document.getElementById('summaryScreenshotTimestamp');
+            const downloadBtnEl = document.getElementById('downloadScreenshotBtn');
+            const hasScreenshot = Boolean(state.preparedScreenshotDataUrl);
+
+            if (sectionEl) sectionEl.classList.toggle('hidden', !hasScreenshot);
+            if (downloadBtnEl) downloadBtnEl.classList.toggle('hidden', !hasScreenshot);
+            if (hasScreenshot) {
+                if (previewEl) previewEl.src = state.preparedScreenshotDataUrl;
+                if (timestampEl) timestampEl.textContent = state.preparedScreenshotTimestamp || '';
+            } else {
+                if (previewEl) previewEl.src = '';
+                if (timestampEl) timestampEl.textContent = '';
+            }
+        }
+
+        function prepareWorkoutScreenshot() {
+            const outCanvas = document.createElement('canvas');
+            const webglCanvas = dragon3D && dragon3D.renderer && dragon3D.renderer.domElement
+                ? dragon3D.renderer.domElement
+                : null;
+
+            if (dragon3D && dragon3D.initialized && dragon3D.renderer && dragon3D.scene && dragon3D.camera) {
+                dragon3D.renderer.render(dragon3D.scene, dragon3D.camera);
+            }
+
+            const width = webglCanvas ? (webglCanvas.width || window.innerWidth || 1280) : (window.innerWidth || 1280);
+            const height = webglCanvas ? (webglCanvas.height || window.innerHeight || 720) : (window.innerHeight || 720);
+            outCanvas.width = width;
+            outCanvas.height = height;
+            const ctx = outCanvas.getContext('2d');
+
+            if (webglCanvas) {
+                ctx.drawImage(webglCanvas, 0, 0, width, height);
+            } else {
+                ctx.fillStyle = '#091526';
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            const fxCanvas = document.getElementById('fxCanvas');
+            if (fxCanvas && fxCanvas.width > 0 && fxCanvas.height > 0) {
+                ctx.drawImage(fxCanvas, 0, 0, width, height);
+            }
+
+            // Draw HUD overlay badge onto the screenshot
+            const workoutName = (state.workout && state.workout.name) ? state.workout.name : 'Performed 3D Flight';
+            const scoreStr = formatSwissNumber(state.totalScore);
+            const streakStr = `${formatSwissNumber(state.streakSeconds)}s`;
+            const wattsStr = `${formatSwissNumber(state.actualWatts)} W`;
+            const elapsedStr = formatDuration(state.elapsedSec);
+
+            const scale = Math.max(1, width / 1280);
+            const pad = Math.round(20 * scale);
+            const boxW = Math.round(290 * scale);
+            const boxH = Math.round(92 * scale);
+            const boxX = width - boxW - pad;
+            const boxY = pad;
+
+            ctx.save();
+            ctx.fillStyle = 'rgba(3, 7, 18, 0.86)';
+            ctx.strokeStyle = 'rgba(249, 115, 22, 0.7)';
+            ctx.lineWidth = Math.max(1.5, 2 * scale);
+            ctx.beginPath();
+            if (typeof ctx.roundRect === 'function') {
+                ctx.roundRect(boxX, boxY, boxW, boxH, Math.round(14 * scale));
+            } else {
+                ctx.rect(boxX, boxY, boxW, boxH);
+            }
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = '#fde047';
+            ctx.font = `900 ${Math.round(13 * scale)}px sans-serif`;
+            ctx.fillText(`PERFORMED 3D • ${workoutName}`, boxX + Math.round(14 * scale), boxY + Math.round(24 * scale));
+
+            ctx.fillStyle = '#fb923c';
+            ctx.font = `900 ${Math.round(22 * scale)}px monospace`;
+            ctx.fillText(`POINTS: ${scoreStr}`, boxX + Math.round(14 * scale), boxY + Math.round(52 * scale));
+
+            ctx.fillStyle = '#cbd5e1';
+            ctx.font = `700 ${Math.round(12 * scale)}px monospace`;
+            ctx.fillText(`Watts: ${wattsStr}  •  Streak: ${streakStr}  •  ${elapsedStr}`, boxX + Math.round(14 * scale), boxY + Math.round(76 * scale));
+            ctx.restore();
+
+            state.preparedScreenshotDataUrl = outCanvas.toDataURL('image/png');
+            state.preparedScreenshotTimestamp = `Captured at ${formatDuration(state.elapsedSec)} • ${wattsStr} • ${scoreStr} pts`;
+            updateScreenshotButtonsUI(true);
+            syncSummaryScreenshotDialogUI();
+            setTimeout(() => updateScreenshotButtonsUI(false), 1800);
+        }
+
+        document.getElementById('screenshotBtn').addEventListener('click', prepareWorkoutScreenshot);
+        const compactScreenshotBtnEl = document.getElementById('compactScreenshotBtn');
+        if (compactScreenshotBtnEl) {
+            compactScreenshotBtnEl.addEventListener('click', prepareWorkoutScreenshot);
+        }
+
+        document.getElementById('downloadScreenshotBtn').addEventListener('click', () => {
+            if (!state.preparedScreenshotDataUrl) return;
+            const workoutTitle = (state.lastSummary && state.lastSummary.workoutName)
+                || (state.workout && state.workout.name)
+                || 'performed3d_training';
+            const safeName = workoutTitle.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+            const dateStr = new Date().toISOString().slice(0, 10);
+            const a = document.createElement('a');
+            a.href = state.preparedScreenshotDataUrl;
+            a.download = `${safeName}_screenshot_${dateStr}.png`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        });
+
         document.getElementById('finishWorkoutBtn').addEventListener('click', () => {
             finishWorkoutAndShowSummary();
         });
@@ -6493,9 +7828,10 @@
             if (savedAvatar) {
                 setAvatarType(savedAvatar);
             } else {
-                setAvatarType('dragon');
+                setAvatarType('aero_wyvern');
             }
             const savedFtp = parseInt(localStorage.getItem('performed_ftp'), 10);
+            setCameraView(parseInt(localStorage.getItem('performed_camera_view'), 10) || 1);
             if (!isNaN(savedFtp) && savedFtp >= 50 && savedFtp <= 600) {
                 state.ftp = savedFtp;
                 document.getElementById('ftpInput').value = savedFtp;
